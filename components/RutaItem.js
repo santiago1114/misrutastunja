@@ -4,7 +4,8 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 export default function RutaItem({ item, onPress }) {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress} >
-      <Text>{item.properties.nombre}</Text>
+      <Text>{item.codigo}</Text>
+      <Text>{item.nombre}</Text>
     </TouchableOpacity>
   );
 }

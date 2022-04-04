@@ -1,30 +1,16 @@
 import React, { useEffect, useState } from "react";
-import MapView, { Geojson, PROVIDER_GOOGLE } from "react-native-maps";
-import { StyleSheet, View, Dimensions, StatusBar, Button } from "react-native";
-import { getRutas } from "../api/rutas";
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  map: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
-  },
-});
+import MapView, { Polyline, PROVIDER_GOOGLE } from "react-native-maps";
+import { StyleSheet, View, Dimensions, StatusBar } from "react-native";
+import { getRuta } from "../api/rutas";
 
 function Mapa({ navigation }) {
-  const [x, setx] = useState({ latitude: 0, longitude: 0 });
+  const [pline, setPline] = useState([]);
   const [ruta, setRuta] = useState({});
 
   useEffect(() => {
-    getRutas()
-      .then((rutas) => {
-        setRuta(rutas);
-        console.log(rutas);
+    getRuta(1)
+      .then(ruta => {
+        setPline(ruta)
       })
       .catch(console.error);
   }, []);
@@ -42,14 +28,19 @@ function Mapa({ navigation }) {
           longitudeDelta: 0.0421,
         }}
       >
-{/*         {ruta !== undefined && (
-          <Geojson
-          geojson={ruta}
-          strokeColor="red"
-          fillColor="green"
-          strokeWidth={2}
-          />
-        )} */}
+      { pline.length>0 && (<Polyline
+          coordinates={pline}
+          strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+          strokeColors={[
+            "#7F0000",
+            "#00000000", // no color, creates a "long" gradient between the previous and next coordinate
+            "#B24112",
+            "#E5845C",
+            "#238C23",
+            "#7F0000",
+          ]}
+          strokeWidth={6}
+        />)}
       </MapView>
       <View
         style={{
@@ -63,3 +54,17 @@ function Mapa({ navigation }) {
 }
 
 export default Mapa;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  map: {
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+  },
+});
+

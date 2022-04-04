@@ -1,43 +1,28 @@
-import { URL_BASE } from "../utils/constants"
+import { URL_BASE } from "../utils/constants";
 
 const getRutas = async () => {
   try {
-    const res = await fetch(`${URL_BASE}/rutas-buses`)
-    const result = await res.json()
-    return result
+    const res = await fetch(`${URL_BASE}/rutas`);
+    const result = await res.json();
+    return result;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
 
-const getRutasTest = () => {
-  return [
-    {
-      type: "Feature",
-      properties: {
-        nombre: "Arboleda - Avenida Norte - Terminal de Transporte",
-        pk: "1",
-      },
-      geometry: {
-        type: "LineString",
-        coordinates: [[-73.331037, 5.57682]],
-      },
-    },
-    {
-      type: "Feature",
-      properties: {
-        nombre: "MUISCAS",
-        pk: "2",
-      },
-      geometry: {
-        type: "LineString",
-        coordinates: [[-73.331037, 5.57682]],
-      },
-    },
-  ]
-}
+const getRuta = async (id) => {
+  try {
+    const res = await fetch(`${URL_BASE}/ruta/${id}`);
+    const result = await res.json();
+    const coord = result.coordinates;
+    const coordObjs = coord.map( (val) => {return { latitude: val[1], longitude: val[0] } })
+    return coordObjs;
+  } catch (error) {
+    throw error;
+  }
+};
 
 module.exports = {
   getRutas,
-  getRutasTest,
-}
+  getRuta,
+};

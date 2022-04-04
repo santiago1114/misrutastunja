@@ -5,27 +5,36 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import RutaItem from "../components/RutaItem";
 
+function RutasExist({rutas}) {
+  if (rutas) {
+    return (<FlatList
+      data={rutas}
+      keyExtractor={(item)=>{item.id}}
+      renderItem={({item}) => (
+            <RutaItem item={item} onPress={()=> navigation.navigate('Mapa')}/>
+        )}
+      ItemSeparatorComponent= {()=>(<View style={styles.itemSeparator}/>)}
+      ListHeaderComponent={({})=>(<Text style={styles.listHeader}>Lista de Rutas</Text>)}
+    />)
+  } else {
+    return <Text>No se encuentran rutas disponibles</Text>
+  }
+}
+
+
 const Inicio = ({navigation})=>{
 
-  const [rutas, setRutas] = useState(getRutasTest());
+  const [rutas, setRutas] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
-    getRutas().then(console.log).catch(console.error);
-  }, []);
-
+    getRutas().then( res => {setRutas(res)} ).catch(console.error);
+  }, [rutas]);
+  //
 
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={rutas}
-        keyExtractor={(item)=>{item.properties.pk}}
-        renderItem={({item}) => (
-              <RutaItem item={item} onPress={()=> navigation.navigate('Mapa')}/>
-          )}
-        ItemSeparatorComponent= {()=>(<View style={styles.itemSeparator}/>)}
-        ListHeaderComponent={({})=>(<Text style={styles.listHeader}>Lista de Rutas</Text>)}
-      />
+      <RutasExist ifRuta={rutas} />
     </SafeAreaView>
   );
 }
