@@ -1,4 +1,4 @@
-export const URL_BASE = 'https://tunjadata.herokuapp.com/api';
+export const URL_BASE = 'http://45.65.233.26:8080/geotunja/api';
 export const COLORS = {
     azul: '#126DB4',
     azul_oscuro: '#2E529C',
