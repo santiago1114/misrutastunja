@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps"
 import {
   StyleSheet,
@@ -10,6 +10,8 @@ import {
 } from "react-native"
 import * as Location from "expo-location"
 import { COLORS } from "../utils/constants"
+import Ionicons from "react-native-vector-icons/Ionicons"
+import { FontAwesome } from "@expo/vector-icons"
 
 function NextButton({ navigation }) {
   return (
@@ -19,11 +21,19 @@ function NextButton({ navigation }) {
   )
 }
 
+
 function InputMap() {
+
   let isStartSelected = false
   const [startMarker, setStartMarker] = useState({})
   const [endMarker, setEndMarker] = useState({})
-
+  const [region, setRegion] = useState({
+    latitude: 5.540147272002443,
+    longitude: -73.35916010380109,
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.01,
+  })
+  
   useEffect(() => {
     ;(async () => {
       let { status } = await Location.requestForegroundPermissionsAsync()
@@ -33,12 +43,18 @@ function InputMap() {
       }
 
       let location = await Location.getCurrentPositionAsync({})
-      setStartMarker({
+
+      setRegion({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
+        latitudeDelta: 0.003,
+        longitudeDelta: 0.003,
       })
+      //mapRef.current.animateToRegion(region)
     })()
-  }, [])
+  })
+
+  useEffect(() => {}, [startMarker])
 
   return (
     <View style={styles.container} flexDirection="column">
@@ -46,57 +62,45 @@ function InputMap() {
       <MapView
         style={styles.mapStyle}
         provider={PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: 5.540147272002443,
-          longitude: -73.35916010380109,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-        onPress={(e) => {
-          isStartSelected
-            ? setStartMarker(e.nativeEvent.coordinate)
-            : setEndMarker(e.nativeEvent.coordinate)
-        }}
+        region={region}
+        onRegionChangeComplete={setRegion}
       >
-        {
-          // if state contains marker variable with a valid value, render the marker
-          startMarker.latitude && <MapView.Marker coordinate={startMarker} />
-        }
-        {
-          // if state contains marker variable with a valid value, render the marker
-          isStartSelected && endMarker.latitude && (
-            <MapView.Marker coordinate={endMarker} />
-          )
-        }
+        {startMarker.latitude && (
+          <MapView.Marker coordinate={startMarker}>
+            <FontAwesome name="map-marker" size={40} color="#B12A5B" />
+          </MapView.Marker>
+        )}
+        {endMarker.latitude && (
+          <MapView.Marker coordinate={endMarker} title="Punto de partida">
+            <FontAwesome name="map-marker" size={40} color="#B12A5B" />
+          </MapView.Marker>
+        )}
       </MapView>
 
-      { !isStartSelected &&
-        <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          isStartSelected = true
-        }}
-      >
-        <Text>Agregar Destino</Text>
-      </TouchableOpacity>}
+      <View style={styles.markerFixed}>
+        <Ionicons name="location-sharp" color="#ccc" size={50} />
+      </View>
 
-      { isStartSelected &&
+      {!isStartSelected && (
         <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          
-        }}
-      >
-        <Text>Encontrar Rutas Disponibles</Text>
-      </TouchableOpacity>}
+          style={styles.button}
+          onPress={() => {
+            isStartSelected = true
+            setStartMarker({
+              latitude: region.latitude,
+              longitude: region.longitude,
+            })
+          }}
+        >
+          <Text>Agregar Origen</Text>
+        </TouchableOpacity>
+      )}
 
-      {/*    <View
-        style={{
-          position: "absolute", //use absolute position to show button on top of the map
-          top: "50%", //for center align
-          alignSelf: "flex-end", //for align to right
-        }}
-      ></View> */}
+      {isStartSelected && (
+        <TouchableOpacity style={styles.button} onPress={() => {}}>
+          <Text>Agregar Destino</Text>
+        </TouchableOpacity>
+      )}
     </View>
   )
 }
@@ -104,6 +108,13 @@ function InputMap() {
 export default InputMap
 
 const styles = StyleSheet.create({
+  markerFixed: {
+    left: "50%",
+    marginLeft: -24,
+    marginTop: -48,
+    position: "absolute",
+    top: "50%",
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -125,6 +136,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingVertical: 10,
     marginHorizontal: 20,
-    borderRadius: 10
+    borderRadius: 10,
   },
 })

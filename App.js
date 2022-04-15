@@ -1,14 +1,13 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import Stack from "./navigation/StackNav";
-import Tabs from "./navigation/Tabs";
+import StackNav from "./navigation/StackNav";
 
 
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Tabs/>
+      <StackNav/>
     </NavigationContainer>
   );
 }
