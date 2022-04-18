@@ -7,6 +7,7 @@ import {
   StatusBar,
   TouchableOpacity,
   Text,
+  Image,
 } from "react-native"
 import * as Location from "expo-location"
 import { COLORS } from "../utils/constants"
@@ -21,10 +22,23 @@ function NextButton({ navigation }) {
   )
 }
 
+const getLocation = async () => {
+  try {
+    let { status } = await Location.requestForegroundPermissionsAsync()
+    if (status !== "granted") {
+      throw new Error("Los permisos de localización fueron denegados")
+    } else {
+      const location = await Location.getCurrentPositionAsync({})
+      return location
+    }
+  } catch (error) {
+    setErrorMsg("Los permisos de localización fueron denegados")
+  }
+}
 
 function InputMap() {
-
-  let isStartSelected = false
+  const [isStartSelected, setIsStartSelected] = useState(false)
+  const [isLocation, setIsLocation] = useState(false)
   const [startMarker, setStartMarker] = useState({})
   const [endMarker, setEndMarker] = useState({})
   const [region, setRegion] = useState({
@@ -33,28 +47,32 @@ function InputMap() {
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   })
-  
+
+  const mapRef = useRef(null)
+
   useEffect(() => {
-    ;(async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync()
-      if (status !== "granted") {
-        setErrorMsg("Los permisos de localización fueron denegados")
-        return
-      }
-
-      let location = await Location.getCurrentPositionAsync({})
-
-      setRegion({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.003,
-        longitudeDelta: 0.003,
+    let isMounted = true
+    getLocation()
+      .then((location) => {
+        if (isMounted) {
+          setRegion({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: 0.003,
+            longitudeDelta: 0.003,
+          })
+          if (mapRef) {
+            mapRef.current.animateToRegion(region, 500)
+          }
+        }
       })
-      //mapRef.current.animateToRegion(region)
-    })()
-  })
+      .catch()
 
-  useEffect(() => {}, [startMarker])
+    return () => {
+      isMounted = false
+      setIsLocation(true)
+    }
+  }, [])
 
   return (
     <View style={styles.container} flexDirection="column">
@@ -62,7 +80,8 @@ function InputMap() {
       <MapView
         style={styles.mapStyle}
         provider={PROVIDER_GOOGLE}
-        region={region}
+        initialRegion={region}
+        ref={mapRef}
         onRegionChangeComplete={setRegion}
       >
         {startMarker.latitude && (
@@ -78,10 +97,17 @@ function InputMap() {
       </MapView>
 
       <View style={styles.markerFixed}>
-        <Ionicons name="location-sharp" color="#ccc" size={50} />
+        {isLocation ? (
+          <Image
+            style={{ width: 40, height: 40 }}
+            source={require("../assets/loading.gif")}
+          />
+        ) : (
+          <Ionicons name="location-sharp" color="#ccc" size={50} />
+        )}
       </View>
 
-      {!isStartSelected && (
+      {!isStartSelected ? (
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -94,10 +120,13 @@ function InputMap() {
         >
           <Text>Agregar Origen</Text>
         </TouchableOpacity>
-      )}
-
-      {isStartSelected && (
-        <TouchableOpacity style={styles.button} onPress={() => {}}>
+      ) : (
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            isStartSelected = false
+          }}
+        >
           <Text>Agregar Destino</Text>
         </TouchableOpacity>
       )}
