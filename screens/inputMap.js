@@ -10,17 +10,10 @@ import {
   Image,
 } from "react-native"
 import * as Location from "expo-location"
-import { COLORS } from "../utils/constants"
+import { COLORS, TUNJA_LOCATION } from "../utils/constants"
 import Ionicons from "react-native-vector-icons/Ionicons"
 import { FontAwesome } from "@expo/vector-icons"
 
-function NextButton({ navigation }) {
-  return (
-    <TouchableOpacity style={styles.button} onPress={() => {}}>
-      <Text>Agregar Destino</Text>
-    </TouchableOpacity>
-  )
-}
 
 const getLocation = async () => {
   try {
@@ -36,7 +29,7 @@ const getLocation = async () => {
   }
 }
 
-function InputMap() {
+function InputMap({navigation}) {
   const [isStartSelected, setIsStartSelected] = useState(false)
   const [isLocation, setIsLocation] = useState(false)
   const [startMarker, setStartMarker] = useState({})
@@ -85,13 +78,13 @@ function InputMap() {
         onRegionChangeComplete={setRegion}
       >
         {startMarker.latitude && (
-          <MapView.Marker coordinate={startMarker}>
-            <FontAwesome name="map-marker" size={40} color="#B12A5B" />
+          <MapView.Marker coordinate={startMarker} title="Punto de partida">
+            <FontAwesome name="map-marker" size={40} color={COLORS.verde} />
           </MapView.Marker>
         )}
         {endMarker.latitude && (
-          <MapView.Marker coordinate={endMarker} title="Punto de partida">
-            <FontAwesome name="map-marker" size={40} color="#B12A5B" />
+          <MapView.Marker coordinate={endMarker} title="Punto de destino">
+            <FontAwesome name="map-marker" size={40} color={COLORS.azul} />
           </MapView.Marker>
         )}
       </MapView>
@@ -111,11 +104,12 @@ function InputMap() {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            isStartSelected = true
+            setIsStartSelected(true)
             setStartMarker({
               latitude: region.latitude,
               longitude: region.longitude,
             })
+            mapRef.current.animateToRegion(TUNJA_LOCATION, 500)
           }}
         >
           <Text>Agregar Origen</Text>
@@ -124,8 +118,16 @@ function InputMap() {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            isStartSelected = false
-          }}
+            setIsStartSelected(false)
+            setEndMarker({
+              latitude: region.latitude,
+              longitude: region.longitude,
+            })
+            navigation.goBack()
+          }
+          
+        
+        }
         >
           <Text>Agregar Destino</Text>
         </TouchableOpacity>

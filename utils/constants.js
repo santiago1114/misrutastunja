@@ -1,4 +1,4 @@
-export const URL_BASE = 'http://45.65.233.26:8080/geotunja/api';
+export const URL_BASE = 'https://geo.tunja.gov.co:8080/api';
 export const URL_BASE_HEROKU = 'https://tunjadata.herokuapp.com/api';
 export const COLORS = {
     azul: '#126DB4',
@@ -11,3 +11,7 @@ export const COLORS = {
     verde: '#067E5B',
     verde_claro: '#14935C'
 }
+export const TUNJA_LOCATION = {latitude: 5.5446161583332865, 
+    longitude: -73.35755698893324,
+    longitudeDelta: 0.05,
+    latitudeDelta: 0.05}
