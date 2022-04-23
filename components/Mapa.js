@@ -17,7 +17,7 @@ function Mapa({ navigation }) {
   })
 
   useEffect(() => {
-    getRuta(1)
+    getRuta(2)
       .then((ruta) => {
         setPline(ruta)
       })

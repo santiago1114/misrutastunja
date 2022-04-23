@@ -7,7 +7,7 @@ const handleEmpty = () => {
     return <Text style={styles.title}> No hay rutas disponibles</Text>
   }
 
-function RutasList({onPress}) {
+function RutasList({navigation}) {
   const [rutas, setRutas] = useState([])
 
   useEffect(() => {
@@ -29,11 +29,11 @@ function RutasList({onPress}) {
             return item.id
           }}
           renderItem={({ item }) => (
-            <RutaItem item={item} onPress={onPress} />
+            <RutaItem item={item} onPress={() => navigation.navigate("Mapa")} />
           )}
           ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
           ListHeaderComponent={({}) => (
-            <Text style={styles.listHeader}>Lista de Rutas</Text>
+            <Text style={styles.listHeader}>Rutas disponibles</Text>
           )}
         />
       )}
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
   listHeader: {
     fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginVertical: 10,
+    textAlign: "center"
   },
 })

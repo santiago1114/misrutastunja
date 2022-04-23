@@ -11,7 +11,7 @@ const Inicio = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Inputs onPress={() => navigation.navigate("InputMap")} />
-      <RutasList onPress={() => navigation.navigate("Mapa")} />
+      <RutasList />
     </SafeAreaView>
   )
 }

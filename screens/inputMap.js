@@ -7,13 +7,10 @@ import {
   StatusBar,
   TouchableOpacity,
   Text,
-  Image,
 } from "react-native"
 import * as Location from "expo-location"
 import { COLORS, TUNJA_LOCATION } from "../utils/constants"
-import Ionicons from "react-native-vector-icons/Ionicons"
-import { FontAwesome } from "@expo/vector-icons"
-
+import { FontAwesome, Ionicons } from "@expo/vector-icons"
 
 const getLocation = async () => {
   try {
@@ -29,21 +26,22 @@ const getLocation = async () => {
   }
 }
 
-function InputMap({navigation}) {
+function InputMap({ navigation }) {
   const [isStartSelected, setIsStartSelected] = useState(false)
   const [isLocation, setIsLocation] = useState(false)
+  const [ok, setOk] = useState(false)
   const [startMarker, setStartMarker] = useState({})
   const [endMarker, setEndMarker] = useState({})
   const [region, setRegion] = useState({
-    latitude: 5.540147272002443,
-    longitude: -73.35916010380109,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
+    latitude: 5.544528560673818,
+    longitude: -73.35754935069738,
+    latitudeDelta: 0.02,
+    longitudeDelta: 0.02,
   })
 
   const mapRef = useRef(null)
 
-  useEffect(() => {
+  /* useEffect(() => {
     let isMounted = true
     getLocation()
       .then((location) => {
@@ -65,7 +63,7 @@ function InputMap({navigation}) {
       isMounted = false
       setIsLocation(true)
     }
-  }, [])
+  }, []) */
 
   return (
     <View style={styles.container} flexDirection="column">
@@ -76,6 +74,8 @@ function InputMap({navigation}) {
         initialRegion={region}
         ref={mapRef}
         onRegionChangeComplete={setRegion}
+        showsUserLocation={true}
+        showsMyLocationButton={true}
       >
         {startMarker.latitude && (
           <MapView.Marker coordinate={startMarker} title="Punto de partida">
@@ -89,48 +89,66 @@ function InputMap({navigation}) {
         )}
       </MapView>
 
-      <View style={styles.markerFixed}>
-        {isLocation ? (
-          <Image
-            style={{ width: 40, height: 40 }}
-            source={require("../assets/loading.gif")}
-          />
-        ) : (
-          <Ionicons name="location-sharp" color="#ccc" size={50} />
-        )}
-      </View>
+      {ok ? (
+        <></>
+      ) : (
+        <View style={styles.markerFixed}>
+          {!isStartSelected ? (
+            <FontAwesome name="map-marker" size={50} color={COLORS.verde} />
+          ) : (
+            <FontAwesome name="map-marker" size={50} color={COLORS.azul} />
+            // <EvilIcons name="location" color="blue" size={50} />
+            // <Ionicons name="location-sharp" color="#CCC" size={50} />
+          )}
+        </View>
+      )}
 
-      {!isStartSelected ? (
+      {ok ? (
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            setIsStartSelected(true)
-            setStartMarker({
-              latitude: region.latitude,
-              longitude: region.longitude,
-            })
-            mapRef.current.animateToRegion(TUNJA_LOCATION, 500)
+            setOk(false)
+            navigation.goBack()
           }}
         >
-          <Text>Agregar Origen</Text>
+          <Text style={styles.txt}>Buscar Rutas </Text>
+          <Ionicons name="arrow-forward" color="#FFF" size={20} />
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            setIsStartSelected(false)
-            setEndMarker({
-              latitude: region.latitude,
-              longitude: region.longitude,
-            })
-            navigation.goBack()
-          }
-          
-        
-        }
-        >
-          <Text>Agregar Destino</Text>
-        </TouchableOpacity>
+        <>
+          {!isStartSelected ? (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                setIsStartSelected(true)
+                setStartMarker({
+                  latitude: region.latitude,
+                  longitude: region.longitude,
+                })
+                mapRef.current.animateToRegion(TUNJA_LOCATION, 500)
+              }}
+            >
+              <Ionicons name="add" color="#FFF" size={20} />
+              <Text style={styles.txt}>Agregar Origen</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                setIsStartSelected(false)
+                setEndMarker({
+                  latitude: region.latitude,
+                  longitude: region.longitude,
+                })
+                setOk(true)
+                //navigation.goBack()
+              }}
+            >
+              <Ionicons name="add" color="#FFF" size={20} />
+              <Text style={styles.txt}>Agregar Destino</Text>
+            </TouchableOpacity>
+          )}
+        </>
       )}
     </View>
   )
@@ -152,21 +170,32 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  txt: {
+    fontSize: 14,
+    //fontFamily: "Open Sans, sans-serif",
+    fontWeight: "400",
+    lineHeight: 19,
+    color: "white",
+  },
   mapStyle: {
+    //marginTop: 50,
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
   button: {
     position: "absolute",
     bottom: 50,
-    left: 0,
-    right: 0,
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: COLORS.azul_claro,
+    justifyContent: "space-evenly",
+    backgroundColor: COLORS.azul_oscuro,
     paddingHorizontal: 30,
     paddingVertical: 10,
-    marginHorizontal: 20,
-    borderRadius: 10,
+    borderRadius: 20,
   },
 })
+
+// <Image
+//  style={{ width: 40, height: 40 }}
+//    source={require("../assets/loading.gif")}
+//  />
