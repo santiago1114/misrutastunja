@@ -3,8 +3,11 @@ import MapView, { Polyline, PROVIDER_GOOGLE } from "react-native-maps"
 import { StyleSheet, View, Dimensions, StatusBar } from "react-native"
 import { getRuta } from "../api/rutas"
 import { mapStyle } from "../utils/mapStyle"
+import Cartel from "../components/cartel"
 
-function Mapa({ navigation }) {
+function Mapa({ route }) {
+  const { item } = route.params
+
   const [pline, setPline] = useState([])
   const [markers, setMarkers] = useState({
     region: {
@@ -17,7 +20,8 @@ function Mapa({ navigation }) {
   })
 
   useEffect(() => {
-    getRuta(2)
+    console.log(item)
+    getRuta(item.id)
       .then((ruta) => {
         setPline(ruta)
       })
@@ -25,7 +29,7 @@ function Mapa({ navigation }) {
   }, [])
 
   return (
-    <View style={styles.container} flexDirection="column">
+    <View>
       <StatusBar animated={true} backgroundColor="#18B8EC" />
       <MapView
         showsUserLocation={true}
@@ -62,13 +66,10 @@ function Mapa({ navigation }) {
           />
         )}
       </MapView>
-      <View
-        style={{
-          position: "absolute", //use absolute position to show button on top of the map
-          top: "50%", //for center align
-          alignSelf: "flex-end", //for align to right
-        }}
-      ></View>
+      <View style={{ position: "absolute", bottom: 30, left:30 }}>
+        <Cartel item={item} />
+      </View>
+
     </View>
   )
 }
@@ -84,6 +85,6 @@ const styles = StyleSheet.create({
   },
   mapStyle: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    height: Dimensions.get("window").height - 50,
   },
 })

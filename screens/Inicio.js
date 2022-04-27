@@ -1,17 +1,25 @@
-import React  from "react"
-import { StyleSheet } from "react-native"
-
+import React, { useEffect, useState } from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
-
+import { StyleSheet } from "react-native"
 import Inputs from "../components/inputs"
 import RutasList from "../components/rutasList"
 
-const Inicio = ({ navigation }) => {
- 
+const Inicio = ({ route, navigation }) => {
+  const [coords, setCoords] = useState(null)
+
+  useEffect(() => {
+    console.log(route.params);
+    if (route.params) {
+      setCoords({origen: true, destino: true})
+    } else {
+      setCoords(null)
+    }
+  }, [])
+
   return (
     <SafeAreaView style={styles.container}>
-      <Inputs onPress={() => navigation.navigate("InputMap")} />
-      <RutasList />
+      <Inputs coords={coords} />
+      <RutasList coords={coords} />
     </SafeAreaView>
   )
 }

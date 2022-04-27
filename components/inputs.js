@@ -1,11 +1,14 @@
 import React from "react"
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import * as rootNavigation from "../navigation/rootNavigation"
 import Icon from "react-native-vector-icons/FontAwesome5"
 
-function Inputs({ onPress }) {
+
+function Inputs({ coords }) {
+
   return (
     <>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={() => rootNavigation.navigate("InputMap")}>
         <View style={styles.mapInput}>
           <View style={styles.group}>
             <Text style={styles.txt}>¿A dónde quieres ir?</Text>
@@ -17,12 +20,12 @@ function Inputs({ onPress }) {
       <View style={styles.Informacion}>
         <View style={styles.item}>
           <Icon size={20} color="black" name="search-location" />
-          <Text style={styles.txt}> Origen</Text>
+          <Text style={styles.txt}> {coords ? coords.origen : "Agrega un origen"}</Text>
         </View>
         <View style={styles.separador} />
         <View style={styles.item}>
           <Icon size={20} color="black" name="search-location" />
-          <Text style={styles.txt}> Destino</Text>
+          <Text style={styles.txt}> {coords ? coords.destino : "Agrega un destino"}</Text>
         </View>
       </View>
 
@@ -30,8 +33,6 @@ function Inputs({ onPress }) {
     </>
   )
 }
-
-export default Inputs
 
 const styles = StyleSheet.create({
   mapInput: {
@@ -58,14 +59,13 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     color: "rgba(136,152,170,1)",
   },
-
   Informacion: {
     marginVertical: 20,
     width: "100%",
     height: 25,
     flexDirection: "row",
     justifyContent: "space-evenly",
-    alignItems: "center"
+    alignItems: "center",
   },
   item: {
     display: "flex",
@@ -80,24 +80,11 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
   },
-  Icons24pxBlackButton: {
-    width: 20,
-    height: 20,
-    marginRight: 3,
-  },
-  Txt778: {
-    fontSize: 14,
-    //fontFamily: "Open Sans, sans-serif",
-    fontWeight: "400",
-    lineHeight: 19,
-    color: "rgba(82,95,127,1)",
-  },
   linea: {
     backgroundColor: "#DEDDDD",
     width: "100%",
     height: 2,
   },
-
   inputs: {
     flex: 1,
     alignItems: "flex-start",
@@ -112,3 +99,5 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
 })
+
+export default Inputs

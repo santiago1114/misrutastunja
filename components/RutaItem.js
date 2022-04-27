@@ -1,18 +1,15 @@
+import * as RootNavigation from '../navigation/rootNavigation';
+
 import React from "react"
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { COLORS } from "../utils/constants"
+import Cartel from "./cartel"
 
-export default function RutaItem({ item, onPress }) {
+
+export default function RutaItem({ item }) {
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress}>
-      <View style={{ flexDirection: "column", alignItems: "center" }}>
-        <View style={styles.cartelCodigo}>
-          <Text style={styles.txtCodigo}>{item.codigo}</Text>
-        </View>
-        <View style={styles.cartel}>
-          <Text style={styles.txtNombre}>{item.nombre.split('-').join('').toUpperCase()}</Text>
-        </View>
-      </View>
+    <TouchableOpacity style={styles.card} onPress={()=>{RootNavigation.navigate('Mapa', { item })}}>
+      <Cartel item={item} />
       <View style={{ flexDirection: "column" }}>
         <View style={styles.horario}>
           <Text style={styles.txt1}>Horario: </Text>
@@ -79,45 +76,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
-  },
-  cartel: {
-    borderRadius: 10,
-    backgroundColor: COLORS.morado_oscuro,
-    shadowColor: "rgba(136,152,170,0.15)",
-    elevation: 3,
-    shadowOffset: { width: 0, height: 0 },
-    width: 130,
-    height: 150,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  cartelCodigo: {
-    width: 60,
-    height: 35,
-    backgroundColor: COLORS.morado_oscuro,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    justifyContent: "center",
-  },
-  txtNombre: {
-    fontSize: 15,
-    fontWeight: "bold",
-    lineHeight: 18,
-    color: "rgba(255,252,252,1)",
-    textAlign: "center",
-    justifyContent: "center",
-    width: 140,
-    height: 90,
-  },
-  txtCodigo: {
-    paddingTop: 8,
-    fontSize: 20,
-    fontWeight: "bold",
-    lineHeight: 18,
-    color: "rgba(255, 255, 255, 1)",
-    textAlign: "center",
-    width: 60,
-    height: 25,
   },
   horario: {
     width: 164,

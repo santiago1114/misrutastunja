@@ -108,7 +108,10 @@ function InputMap({ navigation }) {
           style={styles.button}
           onPress={() => {
             setOk(false)
-            navigation.goBack()
+            navigation.navigate('Inicio',{coords: {
+              origen: {lat: startMarker.latitude, lon: startMarker.longitude},
+              destino: {lat: endMarker.latitude, lon: endMarker.longitude},
+            }})
           }}
         >
           <Text style={styles.txt}>Buscar Rutas </Text>
@@ -141,7 +144,6 @@ function InputMap({ navigation }) {
                   longitude: region.longitude,
                 })
                 setOk(true)
-                //navigation.goBack()
               }}
             >
               <Ionicons name="add" color="#FFF" size={20} />

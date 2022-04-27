@@ -4,19 +4,21 @@ import { getRutas } from "../api/rutas"
 import RutaItem from "../components/RutaItem"
 
 const handleEmpty = () => {
-    return <Text style={styles.title}> No hay rutas disponibles</Text>
-  }
+  return <Text style={styles.title}> No hay rutas disponibles</Text>
+}
 
-function RutasList({navigation}) {
+function RutasList({ coords }) {
   const [rutas, setRutas] = useState([])
 
   useEffect(() => {
-    getRutas()
+    
+    //console.log( "EN RUTAS LIST ", coords);
+    getRutas(coords)
       .then((res) => {
         setRutas(res)
       })
       .catch(console.error)
-  }, [rutas])
+  }, [])
 
   return (
     <>
@@ -28,9 +30,7 @@ function RutasList({navigation}) {
           keyExtractor={(item) => {
             return item.id
           }}
-          renderItem={({ item }) => (
-            <RutaItem item={item} onPress={() => navigation.navigate("Mapa")} />
-          )}
+          renderItem={({ item }) => <RutaItem item={item} />}
           ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
           ListHeaderComponent={({}) => (
             <Text style={styles.listHeader}>Rutas disponibles</Text>
@@ -45,7 +45,6 @@ export default RutasList
 
 const styles = StyleSheet.create({
   itemSeparator: {
-    marginVertical: 10,
     borderWidth: 1,
     borderColor: "#DDDDDD",
   },
@@ -53,6 +52,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginVertical: 10,
-    textAlign: "center"
+    textAlign: "center",
   },
 })

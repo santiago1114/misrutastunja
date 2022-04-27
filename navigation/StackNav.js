@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import React from "react"
 import Inicio from "../screens/Inicio"
-import Mapa from "../components/Mapa"
+import Mapa from "../screens/Mapa"
 import { COLORS } from "../utils/constants"
 import InputMap from "../screens/inputMap"
 import RutasList from "../components/rutasList"
