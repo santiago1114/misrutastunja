@@ -5,6 +5,7 @@ import Mapa from "../screens/Mapa"
 import { COLORS } from "../utils/constants"
 import InputMap from "../screens/inputMap"
 import RutasList from "../components/rutasList"
+import InputMarkerMap from "../screens/inputMarkerMap"
 
 const Stack = createNativeStackNavigator()
 
@@ -14,13 +15,13 @@ function StackNav() {
       <Stack.Screen
         name="Inicio"
         component={Inicio}
-        options={{ title: "Inicio" }}
+        options={{ title: "Inicio", headerShown: false }}
       />
       <Stack.Screen name="Mapa" component={Mapa} />
       <Stack.Screen
-        name="InputMap"
-        component={InputMap}
-        options={{ title: "Mapa", headerShown: false }}
+        name="MarkerMap"
+        component={InputMarkerMap}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="RutasList"

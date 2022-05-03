@@ -25,6 +25,7 @@ function RutasList({ coords }) {
       {!rutas && <Text>Cargando rutas...</Text>}
       {rutas && (
         <FlatList
+          style={{paddingHorizontal: 20}}
           data={rutas}
           ListEmptyComponent={handleEmpty}
           keyExtractor={(item) => {
@@ -50,8 +51,8 @@ const styles = StyleSheet.create({
   },
   listHeader: {
     fontSize: 18,
-    fontWeight: "bold",
-    marginVertical: 10,
+    fontWeight: "500",
+    marginTop: 10,
     textAlign: "center",
   },
 })

@@ -20,7 +20,6 @@ function Mapa({ route }) {
   })
 
   useEffect(() => {
-    console.log(item)
     getRuta(item.id)
       .then((ruta) => {
         setPline(ruta)

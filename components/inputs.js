@@ -1,61 +1,43 @@
-import React from "react"
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
-import * as rootNavigation from "../navigation/rootNavigation"
-import Icon from "react-native-vector-icons/FontAwesome5"
-
+import React, { useEffect, useState } from "react"
+import { StyleSheet, View } from "react-native"
+import { COLORS } from "../utils/constants"
+import Input from "./input"
 
 function Inputs({ coords }) {
+  const [coordinates, setCoordinates] = useState({})
+
+  useEffect(() => {
+    if (coords) {
+      setCoordinates(coords)
+    }
+
+    return () => {
+      console.log(coordinates)
+    }
+  }, [])
 
   return (
-    <>
-      <TouchableOpacity onPress={() => rootNavigation.navigate("InputMap")}>
-        <View style={styles.mapInput}>
-          <View style={styles.group}>
-            <Text style={styles.txt}>¿A dónde quieres ir?</Text>
-            <Icon size={24} color="black" name="search-location" />
-          </View>
-        </View>
-      </TouchableOpacity>
-
-      <View style={styles.Informacion}>
-        <View style={styles.item}>
-          <Icon size={20} color="black" name="search-location" />
-          <Text style={styles.txt}> {coords ? coords.origen : "Agrega un origen"}</Text>
-        </View>
-        <View style={styles.separador} />
-        <View style={styles.item}>
-          <Icon size={20} color="black" name="search-location" />
-          <Text style={styles.txt}> {coords ? coords.destino : "Agrega un destino"}</Text>
-        </View>
-      </View>
-
-      <View style={styles.linea} />
-    </>
+    <View
+      style={{
+        padding: 20,
+        backgroundColor: "#34568B",
+        borderBottomWidth: 2,
+        borderBottomColor: "gray",
+      }}
+    >
+      {coordinates ? (
+        <Input placeholder={"Selecciona el punto de partida"} type={"origen"} />
+      ) : (
+        <Input placeholder={coordinates.origen} type={"origen"} />
+      )}
+      <Input placeholder={"Selecciona el destino"} type={"destino"} />
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
-  mapInput: {
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    backgroundColor: "rgba(255,253,253,1)",
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "rgba(223,230,236,1)",
-  },
-  group: {
-    width: "100%",
-    height: 40,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
   txt: {
     fontSize: 14,
-    //fontFamily: "Open Sans, sans-serif",
-    fontWeight: "400",
     lineHeight: 19,
     color: "rgba(136,152,170,1)",
   },
@@ -101,3 +83,18 @@ const styles = StyleSheet.create({
 })
 
 export default Inputs
+
+{
+  /*       <View style={styles.Informacion}>
+        <View style={styles.item}>
+          <Icon size={20} color="black" name="search-location" />
+          <Text style={styles.txt}> {coords ? coords.origen : "Agrega un origen"}</Text>
+        </View>
+        <View style={styles.separador} />
+        <View style={styles.item}>
+          <Icon size={20} color="black" name="search-location" />
+          <Text style={styles.txt}> {coords ? coords.destino : "Agrega un destino"}</Text>
+        </View>
+        <View style={styles.linea} />
+      </View> */
+}

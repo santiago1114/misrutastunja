@@ -59,9 +59,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   txtNombre: {
-    fontSize: 15,
-    fontWeight: "bold",
-    lineHeight: 18,
+    fontSize: 16,
+    fontWeight: "500",
     color: "rgba(255,252,252,1)",
     textAlign: "center",
     justifyContent: "center",

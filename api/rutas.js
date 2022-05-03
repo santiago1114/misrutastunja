@@ -18,7 +18,7 @@ const getRutas = async ( coords ) => {
   try {
     let res = {}
 
-    console.log("EN RUTAS ",coords)
+    //console.log("EN RUTAS ",coords)
 
     if (coords) {
       res = await fetch(`${URL_BASE}/rutas-filter`, {
