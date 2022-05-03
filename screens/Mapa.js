@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react"
-import MapView, { Polyline, PROVIDER_GOOGLE } from "react-native-maps"
-import { StyleSheet, View, Dimensions, StatusBar } from "react-native"
+import MapView, { Circle, Polyline, PROVIDER_GOOGLE } from "react-native-maps"
+import { StyleSheet, View, Dimensions, StatusBar, Text } from "react-native"
 import { getRuta } from "../api/rutas"
 import { mapStyle } from "../utils/mapStyle"
 import Cartel from "../components/cartel"
+import { FontAwesome, Ionicons } from "@expo/vector-icons"
 
 function Mapa({ route }) {
   const { item } = route.params
@@ -42,7 +43,7 @@ function Mapa({ route }) {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        onPress={(e) => setMarkers({ marker: e.nativeEvent.coordinate })}
+        //onPress={(e) => setMarkers({ marker: e.nativeEvent.coordinate })}
       >
         {
           // if state contains marker variable with a valid value, render the marker
@@ -51,8 +52,9 @@ function Mapa({ route }) {
 
         {pline.length > 0 && (
           <Polyline
+            lineJoin={"bevel"}
             coordinates={pline}
-            strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+            strokeColor="rgba(1,1,1,0.5)" // fallback for when `strokeColors` is not supported by the map-provider
             strokeColors={[
               "#7F0000",
               "#00000000", // no color, creates a "long" gradient between the previous and next coordinate
@@ -64,11 +66,31 @@ function Mapa({ route }) {
             strokeWidth={6}
           />
         )}
+
+        {pline[0] && (
+          <>
+            <MapView.Marker key={1} coordinate={pline[0]}>
+              <Ionicons name="bus-outline" size={30} />
+              <Text>Inicio</Text>
+            </MapView.Marker>
+            <MapView.Marker key={1} coordinate={pline[pline.length - 1]}>
+              <Ionicons name="bus-outline" size={30} />
+              <Text>Fin</Text>
+            </MapView.Marker>
+
+            <MapView.Marker
+              coordinate={selectedMarker}
+              title="Punto de partida"
+              animation={1}
+            >
+              <FontAwesome name="map-marker" size={40} color={COLORS.verde} />
+            </MapView.Marker>
+          </>
+        )}
       </MapView>
-      <View style={{ position: "absolute", bottom: 30, left:30 }}>
+      <View style={{ position: "absolute", bottom: 30, left: 30 }}>
         <Cartel item={item} />
       </View>
-
     </View>
   )
 }

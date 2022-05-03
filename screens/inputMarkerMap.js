@@ -66,7 +66,7 @@ function InputMarkerMap({route, navigation}) {
         showsMyLocationButton={true}
       >
         {selectedMarker.latitude && (
-          <MapView.Marker coordinate={selectedMarker} title="Punto de partida">
+          <MapView.Marker coordinate={selectedMarker} title="Punto de partida" animation={1}>
             <FontAwesome name="map-marker" size={40} color={COLORS.verde} />
           </MapView.Marker>
         )}
