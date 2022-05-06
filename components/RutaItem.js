@@ -1,4 +1,4 @@
-import * as RootNavigation from '../navigation/rootNavigation';
+import * as rootNavigation from '../navigation/rootNavigation';
 
 import React from "react"
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
@@ -8,7 +8,7 @@ import Cartel from "./cartel"
 
 export default function RutaItem({ item }) {
   return (
-    <TouchableOpacity style={styles.card} onPress={()=>{RootNavigation.navigate('Mapa', { item })}}>
+    <TouchableOpacity style={styles.card} onPress={()=>{rootNavigation.navigate('Mapa', { item })}}>
       <Cartel item={item} />
       <View style={{ flexDirection: "column" }}>
         <View style={styles.horario}>

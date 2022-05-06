@@ -16,6 +16,7 @@ function StackNav() {
         name="Inicio"
         component={Inicio}
         options={{ title: "Inicio", headerShown: false }}
+        initialParams={{ origen: {}, destino: {} }}
       />
       <Stack.Screen name="Mapa" component={Mapa} />
       <Stack.Screen

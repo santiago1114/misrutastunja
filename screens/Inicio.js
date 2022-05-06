@@ -9,14 +9,23 @@ const Inicio = ({ route, navigation }) => {
 
   useFocusEffect(
     useCallback(() => {
-      console.log("PARAMETROS RUTA INICIO: ", route.params)
-      if (route.params) {
-        setCoords({ origen: true, destino: true })
-      } else {
-        setCoords(null)
-      }
-    }, [])
-  )
+      if (route.params.origen) setCoords({ origen: route.params.origen })
+      else if (route.params.destino) setCoords({ destino: route.params.destino }) 
+      
+      console.log("COORDS EN INICIO: ", coords)
+    }, [route])
+  ) 
+
+
+/*   useEffect(() => {
+    let isMounted = true
+    console.log("PARAMETROS EN INICIO: ",route.params);
+    return () => {
+      if (route.params.origen) setCoords({ origen: route.params.origen })
+      else if (route.params.destino) setCoords({ destino: route.params.destino })
+      isMounted = false
+    }
+  }) */
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

@@ -11,6 +11,14 @@ export const COLORS = {
     verde: '#067E5B',
     verde_claro: '#14935C'
 }
+
+export const CARTEL_COLORS = {
+    azul: '#0392cf',
+    rojo: '#ee4035 ',
+    verde: '#7bc043',
+    negro: '#1e1f26'
+}
+
 export const TUNJA_LOCATION = {latitude: 5.5446161583332865, 
     longitude: -73.35755698893324,
     longitudeDelta: 0.05,

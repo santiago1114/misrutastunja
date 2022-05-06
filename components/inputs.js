@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, TouchableOpacity, View } from "react-native"
 import { COLORS } from "../utils/constants"
 import Input from "./input"
 
@@ -12,9 +12,9 @@ function Inputs({ coords }) {
     }
 
     return () => {
-      console.log(coordinates)
+      //console.log(coordinates)
     }
-  }, [])
+  }, [coords])
 
   return (
     <View
@@ -31,11 +31,30 @@ function Inputs({ coords }) {
         <Input placeholder={coordinates.origen} type={"origen"} />
       )}
       <Input placeholder={"Selecciona el destino"} type={"destino"} />
+
+      {coordinates.origen && coordinates.destino && (
+        <TouchableOpacity style={{ button }}>
+          <Text>Buscar Rutas</Text>
+        </TouchableOpacity>
+      )}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  button: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    backgroundColor: COLORS.azul_oscuro,
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 20,
+    marginHorizontal: 10,
+  },
+
   txt: {
     fontSize: 14,
     lineHeight: 19,
