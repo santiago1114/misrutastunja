@@ -6,9 +6,9 @@ import { COLORS } from "../utils/constants"
 import Cartel from "./cartel"
 
 
-export default function RutaItem({ item }) {
+export default function RutaItem({ item, coords }) {
   return (
-    <TouchableOpacity style={styles.card} onPress={()=>{rootNavigation.navigate('Mapa', { item })}}>
+    <TouchableOpacity style={styles.card} onPress={()=>{rootNavigation.navigate('Mapa', { item, coords })}}>
       <Cartel item={item} />
       <View style={{ flexDirection: "column" }}>
         <View style={styles.horario}>

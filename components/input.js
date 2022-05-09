@@ -3,7 +3,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import * as rootNavigation from "../navigation/rootNavigation"
 import Icon from "react-native-vector-icons/FontAwesome5"
 
+
+
 function Input({placeholder, type}) {
+
   return (
     <TouchableOpacity onPress={() => rootNavigation.navigate("MarkerMap", {type})}>
       <View style={styles.mapInput}>

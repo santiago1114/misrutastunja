@@ -1,14 +1,33 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useState, useRef } from "react"
 import MapView, { Circle, Polyline, PROVIDER_GOOGLE } from "react-native-maps"
 import { StyleSheet, View, Dimensions, StatusBar, Text } from "react-native"
 import { getRuta } from "../api/rutas"
 import { mapStyle } from "../utils/mapStyle"
 import Cartel from "../components/cartel"
 import { FontAwesome, Ionicons } from "@expo/vector-icons"
+import { COLORS } from "../utils/constants"
+import { useFocusEffect, useIsFocused } from "@react-navigation/native"
+
+
+async function getRef(mapRef, route) {
+  if (
+    mapRef &&
+    route.params.coords.origen &&
+    route.params.coords.destino
+  ) {
+    await setTimeout(() => {
+      mapRef.current.fitToSuppliedMarkers(["origen", "destino"], {
+        edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
+        animated: true,
+      })
+    }, 500)
+  }
+}
 
 function Mapa({ route }) {
   const { item } = route.params
 
+  const mapRef = useRef(null)
   const [pline, setPline] = useState([])
   const [markers, setMarkers] = useState({
     region: {
@@ -19,15 +38,31 @@ function Mapa({ route }) {
     },
     markers: null,
   })
+  const isFocused = useIsFocused()
+  useFocusEffect(
+    useCallback(() => {
+      getRuta(item.id)
+        .then((ruta) => {
+          setPline(ruta)
+        })
+        .catch(console.error)
 
-  useEffect(() => {
+      getRef(mapRef, route)
+    }, [])
+  )
+
+  /*  useEffect(() => {
     getRuta(item.id)
       .then((ruta) => {
         setPline(ruta)
       })
       .catch(console.error)
-  }, [])
 
+      if (mapRef && route.params.coords.origen && route.params.coords.destino) {
+        mapRef.current.fitToSuppliedMarkers(["origen","destino"], { edgePadding: { top: 100, right: 100, bottom: 100, left: 100 }, animated: true })
+      }
+  },[route])
+ */
   return (
     <View>
       <StatusBar animated={true} backgroundColor="#18B8EC" />
@@ -43,7 +78,7 @@ function Mapa({ route }) {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        //onPress={(e) => setMarkers({ marker: e.nativeEvent.coordinate })}
+        ref={mapRef}
       >
         {
           // if state contains marker variable with a valid value, render the marker
@@ -73,18 +108,33 @@ function Mapa({ route }) {
               <Ionicons name="bus-outline" size={30} />
               <Text>Inicio</Text>
             </MapView.Marker>
-            <MapView.Marker key={1} coordinate={pline[pline.length - 1]}>
+            <MapView.Marker key={2} coordinate={pline[pline.length - 1]}>
               <Ionicons name="bus-outline" size={30} />
               <Text>Fin</Text>
             </MapView.Marker>
 
-            <MapView.Marker
-              coordinate={selectedMarker}
-              title="Punto de partida"
-              animation={1}
-            >
-              <FontAwesome name="map-marker" size={40} color={COLORS.verde} />
-            </MapView.Marker>
+            {route.params.coords.origen && (
+              <MapView.Marker
+                coordinate={route.params.coords.origen}
+                title="Punto de partida"
+                animation={1}
+                key={3}
+                identifier="origen"
+              >
+                <FontAwesome name="map-marker" size={40} color={COLORS.verde} />
+              </MapView.Marker>
+            )}
+            {route.params.coords.destino && (
+              <MapView.Marker
+                coordinate={route.params.coords.destino}
+                title="Punto destino"
+                animation={1}
+                key={4}
+                identifier="destino"
+              >
+                <FontAwesome name="map-marker" size={40} color={COLORS.azul} />
+              </MapView.Marker>
+            )}
           </>
         )}
       </MapView>

@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react"
-import { StyleSheet, TouchableOpacity, View } from "react-native"
+import { StyleSheet, TouchableOpacity, View, Text } from "react-native"
 import { COLORS } from "../utils/constants"
 import Input from "./input"
 
-function Inputs({ coords }) {
-  const [coordinates, setCoordinates] = useState({})
-
+function Inputs({ coords, setCoords }) {
   useEffect(() => {
-    if (coords) {
-      setCoordinates(coords)
-    }
-
     return () => {
-      //console.log(coordinates)
+
     }
   }, [coords])
 
@@ -25,15 +19,20 @@ function Inputs({ coords }) {
         borderBottomColor: "gray",
       }}
     >
-      {coordinates ? (
-        <Input placeholder={"Selecciona el punto de partida"} type={"origen"} />
+      {coords.origen ? (
+        <Input placeholder={"Punto de origen agregado"} type={"origen"} />
       ) : (
-        <Input placeholder={coordinates.origen} type={"origen"} />
+        <Input placeholder={"Selecciona el punto de partida"} type={"origen"} />
       )}
-      <Input placeholder={"Selecciona el destino"} type={"destino"} />
 
-      {coordinates.origen && coordinates.destino && (
-        <TouchableOpacity style={{ button }}>
+      {coords.destino ? (
+        <Input placeholder={"Punto destino agregado"} type={"destino"} />
+      ) : (
+        <Input placeholder={"Selecciona el destino"} type={"destino"} />
+      )}
+
+      {coords.origen && coords.destino && (
+        <TouchableOpacity style={styles.button} onPress={()=>{setCoords(coords)}}>
           <Text>Buscar Rutas</Text>
         </TouchableOpacity>
       )}

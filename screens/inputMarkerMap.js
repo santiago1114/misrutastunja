@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useRef, useState, useCallback } from "react"
 import {
   StatusBar,
   StyleSheet,
@@ -10,15 +10,9 @@ import {
 import { getLocation } from "../utils/functions"
 import { COLORS, TUNJA_LOCATION } from "../utils/constants"
 import { FontAwesome, Ionicons } from "@expo/vector-icons"
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps"
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps"
 import * as rootNavigation from "../navigation/rootNavigation"
-
-function createObj(lat, lon, type) {
-  const obj = {}
-  type === "origen" ? (obj.origen = { lat, lon }) : (obj.destino = { lat, lon })
-  console.log("OBJETO ENVIADO A INICIO: ", obj);
-  return obj
-}
+import { useFocusEffect } from "@react-navigation/native"
 
 /**
  * Mapa para seleccionar un *marcador*.
@@ -34,29 +28,32 @@ function InputMarkerMap({ route }) {
 
   const mapRef = useRef(null)
 
-  useEffect(() => {
-    let isMounted = true
-    console.log("PARAMETROS EN MARKER MAP: ",route.params);
-    getLocation()
-      .then((location) => {
-        if (isMounted) {
+  useFocusEffect(
+    useCallback(() => {
+      getLocation()
+        .then((location) => {
           setRegion({
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
             latitudeDelta: 0.003,
             longitudeDelta: 0.003,
           })
-          if (mapRef) {
-            mapRef.current.animateToRegion(region, 500)
-          }
-        }
-      })
-      .catch()
 
-    return () => {
-      isMounted = false
-    }
-  }, [])
+          if (mapRef) {
+            mapRef.current.animateToRegion(
+              {
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                latitudeDelta: 0.003,
+                longitudeDelta: 0.003,
+              },
+              500
+            )
+          }
+        })
+        .catch()
+    }, [])
+  )
 
   return (
     <View style={styles.container}>
@@ -71,13 +68,13 @@ function InputMarkerMap({ route }) {
         showsMyLocationButton={true}
       >
         {selectedMarker.latitude && (
-          <MapView.Marker
+          <Marker
             coordinate={selectedMarker}
             title="Punto de partida"
             animation={1}
           >
             <FontAwesome name="map-marker" size={40} color={COLORS.verde} />
-          </MapView.Marker>
+          </Marker>
         )}
       </MapView>
 
@@ -95,12 +92,7 @@ function InputMarkerMap({ route }) {
           onPress={() => {
             rootNavigation.navigate({
               name: "Inicio",
-              params: createObj(
-                selectedMarker.latitude,
-                selectedMarker.longitude,
-                route.params.type
-              ),
-              merge: true,
+              params: { selectedMarker, type: route.params.type },
             })
           }}
         >
@@ -164,11 +156,3 @@ const styles = StyleSheet.create({
 })
 
 export default InputMarkerMap
-
-/*
-coords: {
-                lat: selectedMarker.latitude,
-                lon: selectedMarker.longitude,
-                type
-              },
-*/

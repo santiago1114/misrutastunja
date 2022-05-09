@@ -5,31 +5,23 @@ import RutasList from "../components/rutasList"
 import { useFocusEffect } from "@react-navigation/native"
 
 const Inicio = ({ route, navigation }) => {
-  const [coords, setCoords] = useState(null)
+  const [coords, setCoords] = useState({})
 
-  useFocusEffect(
+   useFocusEffect(
     useCallback(() => {
-      if (route.params.origen) setCoords({ origen: route.params.origen })
-      else if (route.params.destino) setCoords({ destino: route.params.destino }) 
-      
-      console.log("COORDS EN INICIO: ", coords)
+
+      if (route.params.type === "origen") {
+        setCoords(prevState => ({ ...prevState, origen: route.params.selectedMarker }))
+      }
+      else if (route.params.type === "destino"){
+       setCoords(prevState => ({ ...prevState, destino: route.params.selectedMarker }))
+      }
     }, [route])
   ) 
 
-
-/*   useEffect(() => {
-    let isMounted = true
-    console.log("PARAMETROS EN INICIO: ",route.params);
-    return () => {
-      if (route.params.origen) setCoords({ origen: route.params.origen })
-      else if (route.params.destino) setCoords({ destino: route.params.destino })
-      isMounted = false
-    }
-  }) */
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Inputs coords={coords} />
+      <Inputs coords={coords} setData={(coords)=>{setCoords(coords)}} />
       <RutasList coords={coords} />
     </SafeAreaView>
   )

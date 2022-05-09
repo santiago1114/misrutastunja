@@ -3,7 +3,6 @@ import React from "react"
 import Inicio from "../screens/Inicio"
 import Mapa from "../screens/Mapa"
 import { COLORS } from "../utils/constants"
-import InputMap from "../screens/inputMap"
 import RutasList from "../components/rutasList"
 import InputMarkerMap from "../screens/inputMarkerMap"
 
@@ -16,9 +15,9 @@ function StackNav() {
         name="Inicio"
         component={Inicio}
         options={{ title: "Inicio", headerShown: false }}
-        initialParams={{ origen: {}, destino: {} }}
+        initialParams={{}}
       />
-      <Stack.Screen name="Mapa" component={Mapa} />
+      <Stack.Screen name="Mapa" component={Mapa} initialParams={{}} />
       <Stack.Screen
         name="MarkerMap"
         component={InputMarkerMap}

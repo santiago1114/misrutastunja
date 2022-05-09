@@ -12,13 +12,12 @@ function RutasList({ coords }) {
 
   useEffect(() => {
     
-    //console.log( "EN RUTAS LIST ", coords);
     getRutas(coords)
       .then((res) => {
         setRutas(res)
       })
       .catch(console.error)
-  }, [])
+  }, [coords])
 
   return (
     <>
@@ -31,7 +30,7 @@ function RutasList({ coords }) {
           keyExtractor={(item) => {
             return item.id
           }}
-          renderItem={({ item }) => <RutaItem item={item} />}
+          renderItem={({ item }) => <RutaItem item={item} coords={coords} />}
           ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
           ListHeaderComponent={({}) => (
             <Text style={styles.listHeader}>Rutas disponibles</Text>
