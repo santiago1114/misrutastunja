@@ -5,20 +5,23 @@ import {
   View,
   TouchableOpacity,
   Text,
+  TextInput,
   Dimensions,
 } from "react-native"
 import { getLocation } from "../utils/functions"
 import { COLORS, TUNJA_LOCATION } from "../utils/constants"
-import { FontAwesome, Ionicons } from "@expo/vector-icons"
+import { FontAwesome, Ionicons, Entypo } from "@expo/vector-icons"
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps"
 import * as rootNavigation from "../navigation/rootNavigation"
 import { useFocusEffect } from "@react-navigation/native"
+import AddressSearcher from "../components/addressSearcher"
 
 /**
  * Mapa para seleccionar un *marcador*.
  */
 function InputMarkerMap({ route }) {
   const [selectedMarker, setSelectedMarker] = useState({})
+  const [address, setAddress] = useState("")
   const [region, setRegion] = useState({
     latitude: 5.544528560673818,
     longitude: -73.35754935069738,
@@ -82,13 +85,16 @@ function InputMarkerMap({ route }) {
         <></>
       ) : (
         <View style={styles.markerFixed}>
-          <FontAwesome name="map-marker" size={50} color={COLORS.verde} />
+          <Entypo name="location-pin" size={50} color="#9B59B6" />
         </View>
       )}
 
       {selectedMarker.latitude ? (
         <TouchableOpacity
-          style={styles.button}
+          style={[
+            styles.button,
+            { position: "absolute", bottom: 50, flexDirection: "row" },
+          ]}
           onPress={() => {
             rootNavigation.navigate({
               name: "Inicio",
@@ -101,7 +107,10 @@ function InputMarkerMap({ route }) {
         </TouchableOpacity>
       ) : (
         <TouchableOpacity
-          style={styles.button}
+          style={[
+            styles.button,
+            { position: "absolute", bottom: 50, flexDirection: "row" },
+          ]}
           onPress={() => {
             setSelectedMarker({
               latitude: region.latitude,
@@ -114,6 +123,52 @@ function InputMarkerMap({ route }) {
           <Text style={styles.txt}>Agregar Ubicación</Text>
         </TouchableOpacity>
       )}
+
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          alignItems: "center",
+          position: "absolute",
+          top: 70,
+          width: "90%",
+        }}
+      >
+        <TextInput
+          style={{
+            height: 50,
+            width: "90%",
+            borderWidth: 2,
+            borderColor: "gray",
+            borderTopLeftRadius: 10,
+            borderBottomLeftRadius: 10,
+            padding: 10,
+            backgroundColor: "white",
+          }}
+          value={address}
+          onChangeText={setAddress}
+          placeholder="Digita una ubicación"
+        />
+        <TouchableOpacity
+          style={[
+            {
+              flexDirection: "column",
+              backgroundColor: COLORS.azul_claro,
+              padding: 8,
+              borderBottomRightRadius: 10,
+              borderTopRightRadius: 10,
+              height:50,
+              justifyContent: "center"
+            },
+          ]}
+
+          onPress={()=>{}}
+
+        >
+          <FontAwesome name="search" size={24} />
+        </TouchableOpacity>
+      </View>
+      
     </View>
   )
 }
@@ -140,9 +195,6 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height,
   },
   button: {
-    position: "absolute",
-    bottom: 50,
-    flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
     backgroundColor: COLORS.azul_oscuro,
