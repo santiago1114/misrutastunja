@@ -1,41 +1,77 @@
 import React, { useEffect, useState } from "react"
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native"
-import { COLORS } from "../utils/constants"
 import Input from "./input"
+import { EvilIcons } from "@expo/vector-icons"
 
-function Inputs({ coords, setCoords }) {
-  useEffect(() => {
-    return () => {
-
-    }
-  }, [coords])
-
+function Inputs({ coords, setData }) {
+  
   return (
     <View
       style={{
         padding: 20,
-        backgroundColor: "#34568B",
         borderBottomWidth: 2,
         borderBottomColor: "gray",
       }}
     >
       {coords.origen ? (
-        <Input placeholder={"Punto de origen agregado"} type={"origen"} />
+        <>
+          {coords.addressOrigen ? (
+            <Input
+              placeholder={coords.addressOrigen}
+              type={"origen"}
+              checkFlag={true}
+            />
+          ) : (
+            <Input
+              placeholder={"Punto de partida seleccionado"}
+              type={"origen"}
+              checkFlag={true}
+            />
+          )}
+        </>
       ) : (
-        <Input placeholder={"Selecciona el punto de partida"} type={"origen"} />
+        <Input
+          placeholder={"Selecciona el punto de partida"}
+          type={"origen"}
+          checkFlag={false}
+        />
       )}
 
       {coords.destino ? (
-        <Input placeholder={"Punto destino agregado"} type={"destino"} />
+       <>
+       {coords.addressDestino ? (
+         <Input
+           placeholder={coords.addressDestino}
+           type={"destino"}
+           checkFlag={true}
+         />
+       ) : (
+         <Input
+           placeholder={"Punto destino seleccionado"}
+           type={"destino"}
+           checkFlag={true}
+         />
+       )}
+     </>
       ) : (
-        <Input placeholder={"Selecciona el destino"} type={"destino"} />
+        <Input
+          placeholder={"Selecciona el destino"}
+          type={"destino"}
+          checkFlag={false}
+        />
       )}
 
-      {coords.origen && coords.destino && (
-        <TouchableOpacity style={styles.button} onPress={()=>{setCoords(coords)}}>
-          <Text>Buscar Rutas</Text>
-        </TouchableOpacity>
-      )}
+      {(coords.destino || coords.origen) && (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              setData({})
+            }}
+          >
+            <EvilIcons size={24} color="black" name="trash" />
+            <Text>Vaciar Campos</Text>
+          </TouchableOpacity>
+        )}
     </View>
   )
 }
@@ -44,14 +80,18 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-evenly",
-    backgroundColor: COLORS.azul_oscuro,
+    justifyContent: "center",
+    backgroundColor: "#EEEEEE",
+    marginTop: 20,
     paddingHorizontal: 30,
     paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 20,
+    borderRadius: 15,
     marginHorizontal: 10,
+    shadowColor: "rgba(0,0,0, .4)", // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    elevation: 2, // Android
   },
 
   txt: {

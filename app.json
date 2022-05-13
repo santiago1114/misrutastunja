@@ -1,5 +1,6 @@
 {
   "expo": {
+    "userInterfaceStyle": "light",
     "name": "misrutastunja",
     "slug": "misrutastunja",
     "version": "1.0.0",

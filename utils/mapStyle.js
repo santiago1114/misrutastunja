@@ -1,16 +1,25 @@
 export const mapStyle = [
     {
         "featureType": "all",
-        "elementType": "labels.text",
+        "elementType": "all",
         "stylers": [
             {
-                "color": "#878787"
+                "saturation": "32"
+            },
+            {
+                "lightness": "-3"
+            },
+            {
+                "visibility": "on"
+            },
+            {
+                "weight": "1.18"
             }
         ]
     },
     {
-        "featureType": "all",
-        "elementType": "labels.text.stroke",
+        "featureType": "administrative",
+        "elementType": "labels",
         "stylers": [
             {
                 "visibility": "off"
@@ -19,28 +28,49 @@ export const mapStyle = [
     },
     {
         "featureType": "landscape",
-        "elementType": "all",
+        "elementType": "labels",
         "stylers": [
             {
-                "color": "#f9f5ed"
+                "visibility": "off"
             }
         ]
     },
     {
-        "featureType": "road.highway",
+        "featureType": "landscape.man_made",
         "elementType": "all",
         "stylers": [
             {
-                "color": "#f5f5f5"
+                "saturation": "-70"
+            },
+            {
+                "lightness": "14"
             }
         ]
     },
     {
-        "featureType": "road.highway",
-        "elementType": "geometry.stroke",
+        "featureType": "poi",
+        "elementType": "labels",
         "stylers": [
             {
-                "color": "#c9c9c9"
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "off"
             }
         ]
     },
@@ -49,7 +79,22 @@ export const mapStyle = [
         "elementType": "all",
         "stylers": [
             {
-                "color": "#aee0f4"
+                "saturation": "100"
+            },
+            {
+                "lightness": "-14"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "off"
+            },
+            {
+                "lightness": "12"
             }
         ]
     }

@@ -7,21 +7,26 @@ import {
   Text,
   TextInput,
   Dimensions,
+  FlatList,
 } from "react-native"
 import { getLocation } from "../utils/functions"
 import { COLORS, TUNJA_LOCATION } from "../utils/constants"
 import { FontAwesome, Ionicons, Entypo } from "@expo/vector-icons"
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps"
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps"
 import * as rootNavigation from "../navigation/rootNavigation"
 import { useFocusEffect } from "@react-navigation/native"
-import AddressSearcher from "../components/addressSearcher"
+import { autocomplete, detail } from "../api/geocoder"
+
+const handleEmpty = () => {
+  return <></>
+}
 
 /**
  * Mapa para seleccionar un *marcador*.
  */
 function InputMarkerMap({ route }) {
-  const [selectedMarker, setSelectedMarker] = useState({})
   const [address, setAddress] = useState("")
+  const [autoCompleteList, setAutoCompleteList] = useState([])
   const [region, setRegion] = useState({
     latitude: 5.544528560673818,
     longitude: -73.35754935069738,
@@ -69,106 +74,115 @@ function InputMarkerMap({ route }) {
         onRegionChangeComplete={setRegion}
         showsUserLocation={true}
         showsMyLocationButton={true}
-      >
-        {selectedMarker.latitude && (
-          <Marker
-            coordinate={selectedMarker}
-            title="Punto de partida"
-            animation={1}
-          >
-            <FontAwesome name="map-marker" size={40} color={COLORS.verde} />
-          </Marker>
-        )}
-      </MapView>
+      />
 
-      {selectedMarker.latitude ? (
-        <></>
-      ) : (
-        <View style={styles.markerFixed}>
-          <Entypo name="location-pin" size={50} color="#9B59B6" />
-        </View>
-      )}
+      <View style={styles.markerFixed}>
+        { route.params.type==="origen" ?
+          <Entypo name="location-pin" size={50} color="#EC5800" />:
+          <Entypo name="location-pin" size={50} color="#2ECC71" />}
+      </View>
 
-      {selectedMarker.latitude ? (
-        <TouchableOpacity
-          style={[
-            styles.button,
-            { position: "absolute", bottom: 50, flexDirection: "row" },
-          ]}
-          onPress={() => {
-            rootNavigation.navigate({
-              name: "Inicio",
-              params: { selectedMarker, type: route.params.type },
-            })
-          }}
-        >
-          <Ionicons name="checkmark" color="#FFF" size={20} />
-          <Text style={styles.txt}> OK </Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          style={[
-            styles.button,
-            { position: "absolute", bottom: 50, flexDirection: "row" },
-          ]}
-          onPress={() => {
-            setSelectedMarker({
-              latitude: region.latitude,
-              longitude: region.longitude,
-            })
-            mapRef.current.animateToRegion(TUNJA_LOCATION, 500)
-          }}
-        >
-          <Ionicons name="add" color="#FFF" size={24} />
-          <Text style={styles.txt}>Agregar Ubicación</Text>
-        </TouchableOpacity>
-      )}
-
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          alignItems: "center",
-          position: "absolute",
-          top: 70,
-          width: "90%",
+      <TouchableOpacity
+        style={[
+          styles.button,
+          { position: "absolute", bottom: 50, flexDirection: "row" },
+        ]}
+        onPress={() => {
+          rootNavigation.navigate({
+            name: "Inicio",
+            params: {
+              selectedMarker: {
+                latitude: region.latitude,
+                longitude: region.longitude,
+              },
+              type: route.params.type,
+              address,
+            },
+          })
         }}
       >
-        <TextInput
+        <Ionicons name="checkmark" color="#FFF" size={20} />
+        <Text style={styles.txt}> Agregar Ubicación </Text>
+      </TouchableOpacity>
+
+      <View style={{ flex: 1, position: "absolute", top: 70, width: "90%" }}>
+        <View
           style={{
-            height: 50,
-            width: "90%",
-            borderWidth: 2,
-            borderColor: "gray",
-            borderTopLeftRadius: 10,
-            borderBottomLeftRadius: 10,
-            padding: 10,
-            backgroundColor: "white",
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
           }}
-          value={address}
-          onChangeText={setAddress}
-          placeholder="Digita una ubicación"
-        />
-        <TouchableOpacity
-          style={[
-            {
-              flexDirection: "column",
-              backgroundColor: COLORS.azul_claro,
-              padding: 8,
-              borderBottomRightRadius: 10,
-              borderTopRightRadius: 10,
-              height:50,
-              justifyContent: "center"
-            },
-          ]}
-
-          onPress={()=>{}}
-
         >
-          <FontAwesome name="search" size={24} />
-        </TouchableOpacity>
+          <TextInput
+            style={styles.textInput}
+            value={address}
+            onChangeText={setAddress}
+            onSubmitEditing={() => {
+              autocomplete(address)
+                .then((res) => {
+                  setAutoCompleteList(res)
+                })
+                .catch(console.error)
+            }}
+            placeholder="Digita una ubicación"
+          />
+          <TouchableOpacity
+            style={styles.textInputBtn}
+            onPress={() => {
+              autocomplete(address)
+                .then((res) => {
+                  setAutoCompleteList(res)
+                })
+                .catch(console.error)
+            }}
+          >
+            <FontAwesome name="search" color="white" size={24} />
+          </TouchableOpacity>
+        </View>
+
+        {autoCompleteList.length > 0 && (
+          <FlatList
+            style={styles.autocompleteList}
+            data={autoCompleteList}
+            extraData={autoCompleteList}
+            ListEmptyComponent={handleEmpty}
+            keyExtractor={(item) => {
+              return item.place_id
+            }}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => {
+                  detail(item.place_id)
+                    .then((res) => {
+                      mapRef.current.animateToRegion(
+                        {
+                          latitude: res.geometry.location.lat,
+                          longitude: res.geometry.location.lng,
+                          latitudeDelta: 0.003,
+                          longitudeDelta: 0.003,
+                        },
+                        1000
+                      )
+                      setAddress(res.formatted_address)
+                      setAutoCompleteList([])
+                    })
+                    .catch(console.error)
+                }}
+                style={{ padding: 4 }}
+              >
+                <Text AddressSearcher style={{ color: "black", fontSize: 13 }}>
+                  {item.description}
+                </Text>
+              </TouchableOpacity>
+            )}
+            ItemSeparatorComponent={() => (
+              <View
+                style={{ width: "100%", height: 2, backgroundColor: "#EEEEEE" }}
+              ></View>
+            )}
+          />
+        )}
       </View>
-      
     </View>
   )
 }
@@ -200,10 +214,36 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.azul_oscuro,
     paddingHorizontal: 30,
     paddingVertical: 10,
+    borderRadius: 15,
+    marginHorizontal: 10,
+  },
+  autocompleteList: {
+    marginHorizontal: 20,
+    borderColor: "#EEEEEE",
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    backgroundColor: "white",
+    borderRadius: 15,
+    marginTop: 10,
+  },
+  textInput: {
+    height: 50,
+    width: "90%",
     borderWidth: 1,
     borderColor: "gray",
-    borderRadius: 20,
-    marginHorizontal: 10,
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    padding: 10,
+    backgroundColor: "white",
+  },
+  textInputBtn: {
+    flexDirection: "column",
+    backgroundColor: COLORS.azul,
+    padding: 8,
+    borderBottomRightRadius: 10,
+    borderTopRightRadius: 10,
+    height: 50,
+    justifyContent: "center",
   },
 })
 

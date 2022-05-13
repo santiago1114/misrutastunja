@@ -59,23 +59,11 @@ export default function RutaItem({ item, coords }) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "white",
-    borderRadius: 10,
     width: "100%",
-    height: 220,
-    marginVertical: 30,
+    height: 240,
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
-
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
   },
   horario: {
     width: 164,
@@ -87,17 +75,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "700",
     lineHeight: 17,
-    color: "gray",
+    color: "#191970",
   },
   txt2: {
     fontSize: 14,
-    fontWeight: "700",
+    fontWeight: "normal",
     lineHeight: 17,
     color: "black",
   },
+  txtCircle: {
+    fontSize: 14,
+    fontWeight: "normal",
+    lineHeight: 17,
+    color: "black",
+    textAlign: "center"
+  },
   circle: {
-    borderWidth: 2,
-    borderColor: "gray",
+    borderWidth: 1,
+    borderColor: "black",
     width: 44,
     height: 44,
     borderRadius: 44 / 2,

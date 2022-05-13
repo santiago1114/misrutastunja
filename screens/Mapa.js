@@ -1,23 +1,25 @@
 import React, { useCallback, useState, useRef } from "react"
 import MapView, { Circle, Polyline, PROVIDER_GOOGLE } from "react-native-maps"
-import { StyleSheet, View, Dimensions, StatusBar, Text } from "react-native"
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+} from "react-native"
 import { getRuta } from "../api/rutas"
 import { mapStyle } from "../utils/mapStyle"
 import Cartel from "../components/cartel"
-import { FontAwesome, Ionicons } from "@expo/vector-icons"
+import { FontAwesome, Ionicons, Entypo } from "@expo/vector-icons"
 import { COLORS } from "../utils/constants"
 import { useFocusEffect, useIsFocused } from "@react-navigation/native"
 
-
 async function getRef(mapRef, route) {
-  if (
-    mapRef &&
-    route.params.coords.origen &&
-    route.params.coords.destino
-  ) {
+  if (mapRef && route.params.coords.origen && route.params.coords.destino) {
     await setTimeout(() => {
       mapRef.current.fitToSuppliedMarkers(["origen", "destino"], {
-        edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
+        edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
         animated: true,
       })
     }, 500)
@@ -29,6 +31,7 @@ function Mapa({ route }) {
 
   const mapRef = useRef(null)
   const [pline, setPline] = useState([])
+  const [hideFlag, setHideFlag] = useState(true)
   const [markers, setMarkers] = useState({
     region: {
       latitude: 5.540147272002443,
@@ -38,7 +41,7 @@ function Mapa({ route }) {
     },
     markers: null,
   })
-  const isFocused = useIsFocused()
+  //const isFocused = useIsFocused()
   useFocusEffect(
     useCallback(() => {
       getRuta(item.id)
@@ -51,25 +54,13 @@ function Mapa({ route }) {
     }, [])
   )
 
-  /*  useEffect(() => {
-    getRuta(item.id)
-      .then((ruta) => {
-        setPline(ruta)
-      })
-      .catch(console.error)
-
-      if (mapRef && route.params.coords.origen && route.params.coords.destino) {
-        mapRef.current.fitToSuppliedMarkers(["origen","destino"], { edgePadding: { top: 100, right: 100, bottom: 100, left: 100 }, animated: true })
-      }
-  },[route])
- */
   return (
     <View>
       <StatusBar animated={true} backgroundColor="#18B8EC" />
       <MapView
         showsUserLocation={true}
         showsMyLocationButton={true}
-        // customMapStyle={mapStyle}
+        customMapStyle={mapStyle}
         style={styles.mapStyle}
         provider={PROVIDER_GOOGLE}
         initialRegion={{
@@ -89,28 +80,18 @@ function Mapa({ route }) {
           <Polyline
             lineJoin={"bevel"}
             coordinates={pline}
-            strokeColor="rgba(1,1,1,0.5)" // fallback for when `strokeColors` is not supported by the map-provider
-            strokeColors={[
-              "#7F0000",
-              "#00000000", // no color, creates a "long" gradient between the previous and next coordinate
-              "#B24112",
-              "#E5845C",
-              "#238C23",
-              "#7F0000",
-            ]}
-            strokeWidth={6}
+            strokeColor="rgba(52, 73, 94 ,0.5)" // fallback for when `strokeColors` is not supported by the map-provider
+            strokeWidth={7}
           />
         )}
 
         {pline[0] && (
           <>
             <MapView.Marker key={1} coordinate={pline[0]}>
-              <Ionicons name="bus-outline" size={30} />
-              <Text>Inicio</Text>
+              <Text>Inicio Ruta</Text>
             </MapView.Marker>
             <MapView.Marker key={2} coordinate={pline[pline.length - 1]}>
-              <Ionicons name="bus-outline" size={30} />
-              <Text>Fin</Text>
+              <Text>Fin Ruta</Text>
             </MapView.Marker>
 
             {route.params.coords.origen && (
@@ -121,7 +102,10 @@ function Mapa({ route }) {
                 key={3}
                 identifier="origen"
               >
-                <FontAwesome name="map-marker" size={40} color={COLORS.verde} />
+                <View style={{ alignItems: "center" }}>
+                  <Entypo name="location-pin" size={50} color="#EC5800" />
+                  <Text>Origen</Text>
+                </View>
               </MapView.Marker>
             )}
             {route.params.coords.destino && (
@@ -132,14 +116,29 @@ function Mapa({ route }) {
                 key={4}
                 identifier="destino"
               >
-                <FontAwesome name="map-marker" size={40} color={COLORS.azul} />
+                <View style={{ alignItems: "center" }}>
+                  <Entypo name="location-pin" size={50} color="#2ECC71" />
+                  <Text>Destino</Text>
+                </View>
               </MapView.Marker>
             )}
           </>
         )}
       </MapView>
-      <View style={{ position: "absolute", bottom: 30, left: 30 }}>
-        <Cartel item={item} />
+      <View style={{ position: "absolute", top: 20, left: 20 }}>
+        {hideFlag ? (
+          <TouchableOpacity
+            onPress={() => setHideFlag(false)}
+            style={{ alignItems: "center" }}
+          >
+            <FontAwesome name="info-circle" size={30} color="black" />
+            <Text>Mostrar Cartel</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity onPress={() => setHideFlag(true)}>
+            <Cartel item={item} />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   )

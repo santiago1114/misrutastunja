@@ -1,18 +1,27 @@
 import React from "react"
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import * as rootNavigation from "../navigation/rootNavigation"
-import Icon from "react-native-vector-icons/FontAwesome5"
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons"
 
-
-
-function Input({placeholder, type}) {
-
+function Input({ placeholder, type, checkFlag }) {
   return (
-    <TouchableOpacity onPress={() => rootNavigation.navigate("MarkerMap", {type})}>
+    <TouchableOpacity
+      onPress={() => rootNavigation.navigate("MarkerMap", { type })}
+    >
       <View style={styles.mapInput}>
         <View style={styles.group}>
-          <Text style={styles.txt}>{placeholder}</Text>
-          <Icon size={24} color="black" name="search-location" />
+          <View style={{ maxWidth: "90%" }}>
+            <Text style={styles.txt}>{placeholder}</Text>
+          </View>
+          {checkFlag ? (
+            <MaterialCommunityIcons
+              size={24}
+              color="#50C878"
+              name="map-marker-check"
+            />
+          ) : (
+            <MaterialIcons size={24} color="black" name="location-searching" />
+          )}
         </View>
       </View>
     </TouchableOpacity>
@@ -21,14 +30,11 @@ function Input({placeholder, type}) {
 
 const styles = StyleSheet.create({
   mapInput: {
-    marginVertical: 5,
+    marginVertical: 10,
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingVertical: 5,
     borderRadius: 20,
     backgroundColor: "rgba(255,253,253,1)",
-    borderWidth: 2,
-    borderStyle: "solid",
-    borderColor: "gray"
   },
   group: {
     width: "100%",
@@ -39,11 +45,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   txt: {
-    fontSize: 15,
-    //fontFamily: "Open Sans, sans-serif",
-    fontWeight: "400",
-    lineHeight: 19,
-    color: "rgba(136,152,170,1)",
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "gray",
   },
 })
 
