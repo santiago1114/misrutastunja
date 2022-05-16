@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import Inputs from "../components/inputs"
 import RutasList from "../components/rutasList"
 import { useFocusEffect } from "@react-navigation/native"
-import { ImageBackground, StyleSheet, View, Image, Text } from "react-native"
+import { ImageBackground, View, Image, Text } from "react-native"
 
 
 const Inicio = ({ route, navigation }) => {
@@ -12,14 +12,14 @@ const Inicio = ({ route, navigation }) => {
   useFocusEffect(
     useCallback(() => {
       if (route.params.type === "origen") {
-        console.log("ORIGEN PARAMS TO INICIO", route.params)
+        
         setCoords((prevState) => ({
           ...prevState,
           origen: route.params.selectedMarker,
           addressOrigen: route.params.address,
         }))
       } else if (route.params.type === "destino") {
-        console.log("DESTINO PARAMS TO INICIO", route.params)
+        
         setCoords((prevState) => ({
           ...prevState,
           destino: route.params.selectedMarker,
@@ -35,7 +35,6 @@ const Inicio = ({ route, navigation }) => {
         source={require("../assets/BG.png")}
         resizeMode="cover"
         style={{
-          flex: 1,
           justifyContent: "center",
         }}
       >
@@ -57,8 +56,8 @@ const Inicio = ({ route, navigation }) => {
             }}
           />
           <View>
-          <Text style={{fontSize: 18}}>Mis Rutas Tunja</Text>
-          <Text style={{fontSize: 10}}>por Dirección de TIC's y Gobierno Digital</Text>
+          <Text style={{fontSize: 18, color: "white"}}>Mis Rutas Tunja</Text>
+          <Text style={{fontSize: 10, color: "white"}}>por Dirección de TIC's y Gobierno Digital</Text>
           </View>
 
         </View>
