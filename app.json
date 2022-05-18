@@ -21,7 +21,8 @@
       "supportsTablet": true,
       "config": {
         "googleMapsApiKey": "AIzaSyDBdVgmcFWGgtw_zwgDUaifPQvSa9vZynQ"
-      }
+      },
+      "bundleIdentifier": "com.ingcarlossantiago.misrutastunja"
     },
     "android": {
       "adaptiveIcon": {
@@ -32,7 +33,8 @@
         "googleMaps": {
           "apiKey": "AIzaSyAc1qeRBImXZcLdNsdMYKOhw8MFd2OGdQs"
         }
-      }
+      },
+      "package": "com.ingcarlossantiago.misrutastunja"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -38,7 +38,7 @@ function RutasList({ coords }) {
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: "white",
-            height: "70%"
+            height: "70%",
           }}
         >
           <Image
@@ -48,7 +48,7 @@ function RutasList({ coords }) {
         </View>
       ) : (
         <FlatList
-          style={{ backgroundColor: "#EEEEEE" }}
+          contentContainerStyle={{ paddingBottom: 120 }}
           data={rutas}
           ListEmptyComponent={handleEmpty}
           keyExtractor={(item) => {

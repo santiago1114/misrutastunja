@@ -8,9 +8,7 @@ function Inputs({ coords, setData }) {
   return (
     <View
       style={{
-        padding: 20,
-        borderBottomWidth: 2,
-        borderBottomColor: "gray",
+        padding: 20
       }}
     >
       {coords.origen ? (
