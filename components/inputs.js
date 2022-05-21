@@ -1,14 +1,24 @@
-import React, { useEffect, useState } from "react"
-import { StyleSheet, TouchableOpacity, View, Text } from "react-native"
+import React, { useState, useContext } from "react"
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  TextInput,
+} from "react-native"
 import Input from "./input"
 import { EvilIcons } from "@expo/vector-icons"
+import { FilterContext } from "../utils/constants"
 
-function Inputs({ coords, setData }) {
-  
+
+function Inputs({ coords, setData, setFilterRuta }) {
+  const [modalVisible, setModalVisible] = useState(false)
+  const [filterText, setFilterText] = useState("")
+  const { setFilter } = useContext(FilterContext)
+
   return (
     <View
       style={{
-        padding: 20
+        padding: 20,
       }}
     >
       {coords.origen ? (
@@ -36,21 +46,21 @@ function Inputs({ coords, setData }) {
       )}
 
       {coords.destino ? (
-       <>
-       {coords.addressDestino ? (
-         <Input
-           placeholder={coords.addressDestino}
-           type={"destino"}
-           checkFlag={true}
-         />
-       ) : (
-         <Input
-           placeholder={"Punto destino seleccionado"}
-           type={"destino"}
-           checkFlag={true}
-         />
-       )}
-     </>
+        <>
+          {coords.addressDestino ? (
+            <Input
+              placeholder={coords.addressDestino}
+              type={"destino"}
+              checkFlag={true}
+            />
+          ) : (
+            <Input
+              placeholder={"Punto destino seleccionado"}
+              type={"destino"}
+              checkFlag={true}
+            />
+          )}
+        </>
       ) : (
         <Input
           placeholder={"Selecciona el destino"}
@@ -58,31 +68,47 @@ function Inputs({ coords, setData }) {
           checkFlag={false}
         />
       )}
-
-      {(coords.destino || coords.origen) && (
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              setData({})
-            }}
-          >
-            <EvilIcons size={24} color="black" name="trash" />
-            <Text>Vaciar Campos</Text>
-          </TouchableOpacity>
-        )}
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop:10
+        }}
+      >
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: "black" }]}
+          onPress={() => {
+            setData({})
+          }}
+        >
+          <EvilIcons size={34} color="white" name="trash" />
+        </TouchableOpacity>
+        <TextInput
+          style={styles.textInput}
+          value={filterText}
+          onChangeText={setFilterText}
+          onSubmitEditing={() => {
+            setFilter(filterText)
+          }}
+          placeholder="Filtra rutas por nombre"
+        />
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
   button: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#EEEEEE",
-    marginTop: 20,
-    paddingHorizontal: 30,
-    paddingVertical: 10,
+    padding: 10,
     borderRadius: 15,
     marginHorizontal: 10,
     shadowColor: "rgba(0,0,0, .4)", // IOS
@@ -135,6 +161,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 5,
     elevation: 6,
+  },
+  textInput: {
+    width: "75%",
+    borderRadius: 20,
+    padding: 10,
+    backgroundColor: "rgba(255,255,255,1)",
   },
 })
 

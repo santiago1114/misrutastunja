@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import { FlatList, StyleSheet, Text, View, Image } from "react-native"
 import { getRutas } from "../api/rutas"
 import RutaItem from "../components/RutaItem"
 import { FontAwesome5 } from "@expo/vector-icons"
+import { FilterContext } from "../utils/constants"
+
+
 
 const handleEmpty = () => {
   return (
@@ -21,24 +24,25 @@ const handleEmpty = () => {
 
 function RutasList({ coords }) {
   const [rutas, setRutas] = useState(null)
+  const { filter } = useContext(FilterContext)
 
   useEffect(() => {
-    getRutas(coords)
+    getRutas({ coords, filter })
       .then((res) => {
         setRutas(res)
       })
       .catch(console.error)
-  }, [coords])
+  }, [coords, filter])
 
   return (
     <>
       {!rutas ? (
         <View
           style={{
+            flex: 1,
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: "white",
-            height: "70%",
           }}
         >
           <Image
@@ -48,7 +52,6 @@ function RutasList({ coords }) {
         </View>
       ) : (
         <FlatList
-          contentContainerStyle={{ paddingBottom: 120 }}
           data={rutas}
           ListEmptyComponent={handleEmpty}
           keyExtractor={(item) => {

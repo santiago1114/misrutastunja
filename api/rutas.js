@@ -1,5 +1,6 @@
 import { URL_BASE } from "../utils/constants"
 
+
 const getRuta = async (id) => {
   try {
     const res = await fetch(`${URL_BASE}/ruta/${id}`)
@@ -14,7 +15,7 @@ const getRuta = async (id) => {
   }
 }
 
-const getRutas = async ( coords ) => {
+const getRutas = async ( {coords, filter} ) => {
   try {
     let res = {}
 
@@ -28,10 +29,11 @@ const getRutas = async ( coords ) => {
         body: JSON.stringify({
           origen: coords.origen,
           destino: coords.destino,
+          filter
         }),
       })
     } else {
-      res = await fetch(`${URL_BASE}/rutas`)
+      res = await fetch(`${URL_BASE}/rutas?filter=${filter}`)
     }
     const result = await res.json()
     return result

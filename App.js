@@ -2,9 +2,10 @@ import * as React from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import StackNav from "./navigation/StackNav"
 import { navigationRef } from "./navigation/rootNavigation"
-import { FlatList, View, StyleSheet, Text, Image } from "react-native"
+import { View, Text, Image } from "react-native"
 import AppIntroSlider from "react-native-app-intro-slider"
 import { COLORS } from "./utils/constants"
+
 
 const slides = [
   {
