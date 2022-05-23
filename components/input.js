@@ -2,6 +2,7 @@ import React from "react"
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import * as rootNavigation from "../navigation/rootNavigation"
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons"
+import { COLORS } from "../utils/constants"
 
 function Input({ placeholder, type, checkFlag }) {
   return (
@@ -14,11 +15,21 @@ function Input({ placeholder, type, checkFlag }) {
             <Text style={styles.txt}>{placeholder}</Text>
           </View>
           {checkFlag ? (
-            <MaterialCommunityIcons
-              size={24}
-              color="#50C878"
-              name="map-marker-check"
-            />
+            <>
+              {type === "origen" ? (
+                <MaterialCommunityIcons
+                  size={24}
+                  color={COLORS.morado}
+                  name="map-marker-check"
+                />
+              ) : (
+                <MaterialCommunityIcons
+                  size={24}
+                  color={COLORS.verde_claro}
+                  name="map-marker-check"
+                />
+              )}
+            </>
           ) : (
             <MaterialIcons size={24} color="black" name="location-searching" />
           )}

@@ -78,9 +78,9 @@ function InputMarkerMap({ route }) {
 
       <View style={{ marginBottom: 50 }}>
         {route.params.type === "origen" ? (
-          <Entypo name="location-pin" size={50} color="#EC5800" />
+          <Entypo name="location-pin" size={50} color={COLORS.morado} />
         ) : (
-          <Entypo name="location-pin" size={50} color="#2ECC71" />
+          <Entypo name="location-pin" size={50} color={COLORS.verde_claro} />
         )}
       </View>
 
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "space-evenly",
-    backgroundColor: COLORS.verde_claro,
+    backgroundColor: "#50C878",
   },
   autocompleteList: {
     marginHorizontal: 20,

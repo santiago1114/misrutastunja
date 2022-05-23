@@ -13,6 +13,7 @@ import { mapStyle } from "../utils/mapStyle"
 import Cartel from "../components/cartel"
 import { FontAwesome, Entypo } from "@expo/vector-icons"
 import { useFocusEffect } from "@react-navigation/native"
+import { COLORS } from "../utils/constants"
 
 async function getRef(mapRef, route) {
   if (mapRef && route.params.coords.origen && route.params.coords.destino) {
@@ -87,10 +88,26 @@ function Mapa({ route }) {
         {pline[0] && (
           <>
             <MapView.Marker key={1} coordinate={pline[0]}>
-              <Text style={{backgroundColor:"black", borderRadius:5, color: "white"}}>Inicio Ruta</Text>
+              <Text
+                style={{
+                  backgroundColor: "black",
+                  borderRadius: 5,
+                  color: "white",
+                }}
+              >
+                Inicio Ruta
+              </Text>
             </MapView.Marker>
             <MapView.Marker key={2} coordinate={pline[pline.length - 1]}>
-              <Text style={{backgroundColor:"black", borderRadius:5, color: "white"}}>Fin Ruta</Text>
+              <Text
+                style={{
+                  backgroundColor: "black",
+                  borderRadius: 5,
+                  color: "white",
+                }}
+              >
+                Fin Ruta
+              </Text>
             </MapView.Marker>
 
             {route.params.coords.origen && (
@@ -102,8 +119,8 @@ function Mapa({ route }) {
                 identifier="origen"
               >
                 <View style={{ alignItems: "center" }}>
-                  <Entypo name="location-pin" size={50} color="#EC5800" />
-                  <Text style={{backgroundColor:"white", borderRadius:5}}>Origen</Text>
+                  <Text style={{ fontWeight: "bold" }}>Origen</Text>
+                  <Entypo name="location-pin" size={50} color={COLORS.morado} />
                 </View>
               </MapView.Marker>
             )}
@@ -116,8 +133,8 @@ function Mapa({ route }) {
                 identifier="destino"
               >
                 <View style={{ alignItems: "center" }}>
-                  <Entypo name="location-pin" size={50} color="#2ECC71" />
-                  <Text style={{backgroundColor:"white", borderRadius:5}}>Destino</Text>
+                  <Text style={{ fontWeight: "bold" }}>Destino</Text>
+                  <Entypo name="location-pin" size={50} color={COLORS.verde} />
                 </View>
               </MapView.Marker>
             )}

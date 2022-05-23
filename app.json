@@ -22,7 +22,10 @@
       "config": {
         "googleMapsApiKey": "AIzaSyDBdVgmcFWGgtw_zwgDUaifPQvSa9vZynQ"
       },
-      "bundleIdentifier": "com.ingcarlossantiago.misrutastunja"
+      "bundleIdentifier": "com.ingcarlossantiago.misrutastunja",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app uses location services for get the origin and destination from the user."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -34,7 +37,8 @@
           "apiKey": "AIzaSyAc1qeRBImXZcLdNsdMYKOhw8MFd2OGdQs"
         }
       },
-      "package": "com.ingcarlossantiago.misrutastunja"
+      "package": "com.ingcarlossantiago.misrutastunja",
+      "permissions": [ "LOCATION" ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
