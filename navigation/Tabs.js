@@ -1,24 +1,22 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import StackNav from "./StackNav";
+import React from "react"
+import { StyleSheet, Text, View } from "react-native"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { Ionicons } from "@expo/vector-icons"
+import StackNav from "./StackNav"
 
 function SettingsScreen() {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Settings!</Text>
     </View>
-  );
+  )
 }
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator()
 
 export default function Tabs() {
   return (
-    <Tab.Navigator
-    screenOptions={{ headerShown: false }}
-    >
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen
         name="Buscador de Rutas"
         component={StackNav}
@@ -40,7 +38,7 @@ export default function Tabs() {
         }}
       />
     </Tab.Navigator>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -51,7 +49,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.5,
     elevation: 5,
   },
-});
+})
 
 /* 
 screenOptions={{
