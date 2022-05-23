@@ -65,7 +65,7 @@ function InputMarkerMap({ route }) {
 
   return (
     <View style={styles.container}>
-      <StatusBar animated={true} backgroundColor="#18B8EC" />
+      {/* <StatusBar animated={true} backgroundColor="#18B8EC" /> */}
       <MapView
         style={styles.mapStyle}
         provider={PROVIDER_GOOGLE}
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
     position: "absolute",
-    top: 50,
+    top: 0,
     left: 0
   },
   button: {
