@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
     position: "absolute",
-    top: 0,
+    top: 50,
     left: 0
   },
   button: {
