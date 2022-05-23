@@ -6,7 +6,6 @@ import { View, Text, Image } from "react-native"
 import AppIntroSlider from "react-native-app-intro-slider"
 import { COLORS } from "./utils/constants"
 
-
 const slides = [
   {
     key: "uno",
@@ -41,24 +40,32 @@ export default class App extends React.Component {
 
   _renderNextButton = () => {
     return (
-      <Text style={{
-        marginTop: 5,
-        fontSize: 20,
-        fontWeight: "bold",
-        color: "white",
-      }}>Siguiente</Text>
-    );
-  };
+      <Text
+        style={{
+          marginTop: 5,
+          fontSize: 20,
+          fontWeight: "bold",
+          color: "white",
+        }}
+      >
+        Siguiente
+      </Text>
+    )
+  }
   _renderDoneButton = () => {
     return (
-      <Text style={{
-        marginTop: 5,
-        fontSize: 20,
-        fontWeight: "bold",
-        color: "white",
-      }}>Hecho</Text>
-    );
-  };
+      <Text
+        style={{
+          marginTop: 5,
+          fontSize: 20,
+          fontWeight: "bold",
+          color: "white",
+        }}
+      >
+        Hecho
+      </Text>
+    )
+  }
 
   _renderItem = ({ item }) => {
     return (
@@ -83,7 +90,6 @@ export default class App extends React.Component {
         <Image
           source={item.image}
           style={{
-            
             aspectRatio: 0.7,
             resizeMode: "contain",
             maxHeight: 500,

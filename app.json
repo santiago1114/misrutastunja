@@ -24,7 +24,7 @@
       },
       "bundleIdentifier": "com.ingcarlossantiago.misrutastunja",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "This app uses location services for get the origin and destination from the user."
+        "NSLocationWhenInUseUsageDescription": "This app uses location services for get the origin and destination from the user and calculate corresponding routes."
       }
     },
     "android": {

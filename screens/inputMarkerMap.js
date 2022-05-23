@@ -217,6 +217,8 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
     position: "absolute",
+    top: 0,
+    left: 0
   },
   button: {
     alignItems: "center",
