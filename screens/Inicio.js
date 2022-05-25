@@ -78,9 +78,10 @@ const Inicio = ({ route, navigation }) => {
               </Text>
               <Text
                 style={{
-                  fontSize: 14,
+                  fontSize: 15,
+                  fontWeight: "bold",
                   color: "black",
-                  backgroundColor: COLORS.amarillo,
+                  backgroundColor: COLORS.azul_claro,
                   padding: 4,
                   borderRadius: 10,
                   marginVertical: 10,
@@ -101,9 +102,10 @@ const Inicio = ({ route, navigation }) => {
               </Text>
               <Text
                 style={{
-                  fontSize: 14,
+                  fontSize: 15,
+                  fontWeight: "bold",
                   color: "white",
-                  backgroundColor: COLORS.rojo,
+                  backgroundColor: COLORS.morado_oscuro,
                   padding: 4,
                   borderRadius: 10,
                 }}

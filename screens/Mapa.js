@@ -11,7 +11,7 @@ import {
 import { getRuta } from "../api/rutas"
 import { mapStyle } from "../utils/mapStyle"
 import Cartel from "../components/cartel"
-import { FontAwesome, Entypo } from "@expo/vector-icons"
+import { FontAwesome, Entypo, MaterialCommunityIcons } from "@expo/vector-icons"
 import { useFocusEffect } from "@react-navigation/native"
 import { COLORS } from "../utils/constants"
 
@@ -19,7 +19,7 @@ async function getRef(mapRef, route) {
   if (mapRef && route.params.coords.origen && route.params.coords.destino) {
     await setTimeout(() => {
       mapRef.current.fitToSuppliedMarkers(["origen", "destino"], {
-        edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+        edgePadding: { top: 25, right: 25, bottom: 25, left: 25 },
         animated: true,
       })
     }, 500)
@@ -88,26 +88,30 @@ function Mapa({ route }) {
         {pline[0] && (
           <>
             <MapView.Marker key={1} coordinate={pline[0]}>
-              <Text
-                style={{
-                  backgroundColor: "black",
-                  borderRadius: 5,
-                  color: "white",
-                }}
-              >
-                Inicio Ruta
-              </Text>
+              <View style={{ alignItems: "center" }}>
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    color: "black",
+                  }}
+                >
+                  Inicio Ruta
+                </Text>
+                <MaterialCommunityIcons name="bus-alert" size={24} />
+              </View>
             </MapView.Marker>
             <MapView.Marker key={2} coordinate={pline[pline.length - 1]}>
-              <Text
-                style={{
-                  backgroundColor: "black",
-                  borderRadius: 5,
-                  color: "white",
-                }}
-              >
-                Fin Ruta
-              </Text>
+              <View style={{ alignItems: "center" }}>
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    color: "black",
+                  }}
+                >
+                  Fin Ruta
+                </Text>
+                <MaterialCommunityIcons name="bus-alert" size={24} />
+              </View>
             </MapView.Marker>
 
             {route.params.coords.origen && (
@@ -119,8 +123,16 @@ function Mapa({ route }) {
                 identifier="origen"
               >
                 <View style={{ alignItems: "center" }}>
-                  <Text style={{ fontWeight: "bold" }}>Origen</Text>
-                  <Entypo name="location-pin" size={50} color={COLORS.morado} />
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      textShadowRadius: 10,
+                      textShadowColor: "white",
+                    }}
+                  >
+                    Origen
+                  </Text>
+                  <Entypo name="location-pin" size={50} color={COLORS.rojo} />
                 </View>
               </MapView.Marker>
             )}
@@ -133,7 +145,15 @@ function Mapa({ route }) {
                 identifier="destino"
               >
                 <View style={{ alignItems: "center" }}>
-                  <Text style={{ fontWeight: "bold" }}>Destino</Text>
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      textShadowRadius: 10,
+                      textShadowColor: "white",
+                    }}
+                  >
+                    Destino
+                  </Text>
                   <Entypo name="location-pin" size={50} color={COLORS.verde} />
                 </View>
               </MapView.Marker>
@@ -145,10 +165,15 @@ function Mapa({ route }) {
         {hideFlag ? (
           <TouchableOpacity
             onPress={() => setHideFlag(false)}
-            style={{ alignItems: "center" }}
+            style={{
+              alignItems: "center",
+              backgroundColor: "white",
+              borderRadius: 20,
+              padding: 10,
+            }}
           >
             <FontAwesome name="info-circle" size={30} color="black" />
-            <Text>Mostrar Cartel</Text>
+            <Text>Mostrar Ruta</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity onPress={() => setHideFlag(true)}>

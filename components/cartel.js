@@ -35,19 +35,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    elevation: 3,
-    shadowOffset: { width: 0, height: 0 },
     width: 150,
     height: 150,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    
-    elevation: 8,
   },
   cartelCodigo: {
     width: 70,

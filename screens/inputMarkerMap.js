@@ -65,7 +65,7 @@ function InputMarkerMap({ route }) {
 
   return (
     <View style={styles.container}>
-      {/* <StatusBar animated={true} backgroundColor="#18B8EC" /> */}
+      <StatusBar/>
       <MapView
         style={styles.mapStyle}
         provider={PROVIDER_GOOGLE}
@@ -78,7 +78,7 @@ function InputMarkerMap({ route }) {
 
       <View style={{ marginBottom: 50 }}>
         {route.params.type === "origen" ? (
-          <Entypo name="location-pin" size={50} color={COLORS.morado} />
+          <Entypo name="location-pin" size={50} color={COLORS.rojo} />
         ) : (
           <Entypo name="location-pin" size={50} color={COLORS.verde_claro} />
         )}
@@ -144,7 +144,7 @@ function InputMarkerMap({ route }) {
                 }}
                 style={{ padding: 4 }}
               >
-                <Text AddressSearcher style={{ color: "black", fontSize: 13 }}>
+                <Text AddressSearcher style={{ color: "black", paddingVertical: 4 }}>
                   {item.description}
                 </Text>
               </TouchableOpacity>
@@ -214,11 +214,9 @@ const styles = StyleSheet.create({
     color: "white",
   },
   mapStyle: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    width: "100%",//Dimensions.get("window").width,
+    height: "100%", //Dimensions.get("window").height,
     position: "absolute",
-    top: 0,
-    left: 0
   },
   button: {
     alignItems: "center",

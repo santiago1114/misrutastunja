@@ -3,18 +3,7 @@ export const mapStyle = [
         "featureType": "all",
         "elementType": "all",
         "stylers": [
-            {
-                "saturation": "32"
-            },
-            {
-                "lightness": "-3"
-            },
-            {
-                "visibility": "on"
-            },
-            {
-                "weight": "1.18"
-            }
+         
         ]
     },
     {
@@ -22,7 +11,7 @@ export const mapStyle = [
         "elementType": "labels",
         "stylers": [
             {
-                "visibility": "off"
+                "visibility": "on"
             }
         ]
     },
@@ -31,19 +20,7 @@ export const mapStyle = [
         "elementType": "labels",
         "stylers": [
             {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "landscape.man_made",
-        "elementType": "all",
-        "stylers": [
-            {
-                "saturation": "-70"
-            },
-            {
-                "lightness": "14"
+                "visibility": "on"
             }
         ]
     },
@@ -70,7 +47,7 @@ export const mapStyle = [
         "elementType": "labels",
         "stylers": [
             {
-                "visibility": "off"
+                "visibility": "on"
             }
         ]
     },
@@ -86,16 +63,4 @@ export const mapStyle = [
             }
         ]
     },
-    {
-        "featureType": "water",
-        "elementType": "labels",
-        "stylers": [
-            {
-                "visibility": "off"
-            },
-            {
-                "lightness": "12"
-            }
-        ]
-    }
 ]

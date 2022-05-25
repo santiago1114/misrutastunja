@@ -72,7 +72,7 @@ function Inputs({ coords, setData, setFilterRuta }) {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "space-evenly",
           marginTop:10
         }}
       >
@@ -80,6 +80,8 @@ function Inputs({ coords, setData, setFilterRuta }) {
           style={[styles.button, { backgroundColor: "black" }]}
           onPress={() => {
             setData({})
+            setFilterText("")
+            setFilter("")
           }}
         >
           <EvilIcons size={34} color="white" name="trash" />
@@ -110,7 +112,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 10,
     borderRadius: 15,
-    marginHorizontal: 10,
     shadowColor: "rgba(0,0,0, .4)", // IOS
     shadowOffset: { height: 1, width: 1 }, // IOS
     shadowOpacity: 1, // IOS
@@ -163,7 +164,8 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   textInput: {
-    width: "75%",
+    marginLeft: 10,
+    width: "60%",
     borderRadius: 20,
     padding: 10,
     backgroundColor: "rgba(255,255,255,1)",

@@ -19,7 +19,7 @@ function Input({ placeholder, type, checkFlag }) {
               {type === "origen" ? (
                 <MaterialCommunityIcons
                   size={24}
-                  color={COLORS.morado}
+                  color={COLORS.rojo}
                   name="map-marker-check"
                 />
               ) : (
