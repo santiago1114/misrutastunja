@@ -47,17 +47,11 @@ function InputMarkerMap({ route }) {
             longitudeDelta: 0.003,
           })
 
-          if (mapRef && route.params.coords.origen) {
-            mapRef.current.animateToRegion(
-              {
-                latitude: route.params.coords.origen.latitude,
-                longitude: route.params.coords.origen.longitude,
-                latitudeDelta: 0.003,
-                longitudeDelta: 0.003,
-              },
-              1000
-            )
-          } else if (mapRef && route.params.type === "origen") {
+          if (
+            mapRef &&
+            route.params.type === "origen" &&
+            !route.params.coords.origen
+          ) {
             mapRef.current.animateToRegion(
               {
                 latitude: location.coords.latitude,
@@ -67,19 +61,29 @@ function InputMarkerMap({ route }) {
               },
               1000
             )
-          } else if (mapRef && route.params.coords.destino) {
-            mapRef.current.animateToRegion(
-              {
-                latitude: route.params.coords.destino.latitude,
-                longitude: route.params.coords.destino.longitude,
-                latitudeDelta: 0.003,
-                longitudeDelta: 0.003,
-              },
-              1000
-            )
           }
         })
         .catch()
+      if (route.params.coords) {
+        if (route.params.coords.origen && route.params.type === "origen") {
+          setRegion({
+            latitude: route.params.coords.origen.latitude,
+            longitude: route.params.coords.origen.longitude,
+            latitudeDelta: 0.003,
+            longitudeDelta: 0.003,
+          })
+        } else if (
+          route.params.coords.destino &&
+          route.params.type === "destino"
+        ) {
+          setRegion({
+            latitude: route.params.coords.destino.latitude,
+            longitude: route.params.coords.destino.longitude,
+            latitudeDelta: 0.003,
+            longitudeDelta: 0.003,
+          })
+        }
+      }
     }, [])
   )
 
@@ -219,22 +223,10 @@ function InputMarkerMap({ route }) {
 }
 
 const styles = StyleSheet.create({
-  markerFixed: {
-    left: "50%",
-    marginLeft: -24,
-    marginTop: -48,
-    position: "absolute",
-    top: "50%",
-  },
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  txt: {
-    fontSize: 15,
-    lineHeight: 19,
-    color: "white",
   },
   mapStyle: {
     width: "100%", //Dimensions.get("window").width,

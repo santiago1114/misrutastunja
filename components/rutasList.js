@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react"
 import { FlatList, StyleSheet, Text, View, Image } from "react-native"
 import { getRutas } from "../api/rutas"
-import RutaItem from "../components/RutaItem"
+import RutaItem from "./rutaItem"
 import { FontAwesome5 } from "@expo/vector-icons"
 import { FilterContext } from "../utils/constants"
 

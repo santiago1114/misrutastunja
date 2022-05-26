@@ -11,7 +11,7 @@ export const getLocation = async () => {
         return location
       }
     } catch (error) {
-      setErrorMsg("Los permisos de localización fueron denegados")
+      alert("Los permisos de localización fueron denegados")
     }
   }
   

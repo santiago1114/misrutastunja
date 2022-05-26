@@ -11,7 +11,6 @@ import { FilterContext } from "../utils/constants"
 
 
 function Inputs({ coords, setData, setFilterRuta }) {
-  const [modalVisible, setModalVisible] = useState(false)
   const [filterText, setFilterText] = useState("")
   const { setFilter } = useContext(FilterContext)
 
@@ -54,12 +53,14 @@ function Inputs({ coords, setData, setFilterRuta }) {
               placeholder={coords.addressDestino}
               type={"destino"}
               checkFlag={true}
+              coords={coords}
             />
           ) : (
             <Input
               placeholder={"Punto destino seleccionado"}
               type={"destino"}
               checkFlag={true}
+              coords={coords}
             />
           )}
         </>
@@ -103,11 +104,6 @@ function Inputs({ coords, setData, setFilterRuta }) {
 }
 
 const styles = StyleSheet.create({
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
   button: {
     flexDirection: "row",
     alignItems: "center",
@@ -120,51 +116,6 @@ const styles = StyleSheet.create({
     shadowRadius: 1, //IOS
     elevation: 2, // Android
   },
-
-  txt: {
-    fontSize: 14,
-    lineHeight: 19,
-    color: "rgba(136,152,170,1)",
-  },
-  Informacion: {
-    marginVertical: 20,
-    width: "100%",
-    height: 25,
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-  },
-  item: {
-    display: "flex",
-    flexDirection: "row",
-  },
-  separador: {
-    backgroundColor: "rgba(23,43,77,1)",
-    width: 1,
-    height: 24,
-  },
-  Destino: {
-    display: "flex",
-    flexDirection: "row",
-  },
-  linea: {
-    backgroundColor: "#DEDDDD",
-    width: "100%",
-    height: 2,
-  },
-  inputs: {
-    flex: 1,
-    alignItems: "flex-start",
-    justifyContent: "space-evenly",
-    backgroundColor: "#F5F5F5",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 6,
-  },
   textInput: {
     marginLeft: 10,
     width: "60%",
@@ -175,18 +126,3 @@ const styles = StyleSheet.create({
 })
 
 export default Inputs
-
-{
-  /*       <View style={styles.Informacion}>
-        <View style={styles.item}>
-          <Icon size={20} color="black" name="search-location" />
-          <Text style={styles.txt}> {coords ? coords.origen : "Agrega un origen"}</Text>
-        </View>
-        <View style={styles.separador} />
-        <View style={styles.item}>
-          <Icon size={20} color="black" name="search-location" />
-          <Text style={styles.txt}> {coords ? coords.destino : "Agrega un destino"}</Text>
-        </View>
-        <View style={styles.linea} />
-      </View> */
-}

@@ -2,7 +2,6 @@ import * as rootNavigation from '../navigation/rootNavigation';
 
 import React from "react"
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
-import { COLORS } from "../utils/constants"
 import Cartel from "./cartel"
 
 
@@ -82,13 +81,6 @@ const styles = StyleSheet.create({
     fontWeight: "normal",
     lineHeight: 17,
     color: "black",
-  },
-  txtCircle: {
-    fontSize: 14,
-    fontWeight: "normal",
-    lineHeight: 17,
-    color: "black",
-    textAlign: "center"
   },
   circle: {
     borderWidth: 1,
