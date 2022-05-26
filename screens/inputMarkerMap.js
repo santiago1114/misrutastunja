@@ -47,11 +47,31 @@ function InputMarkerMap({ route }) {
             longitudeDelta: 0.003,
           })
 
-          if (mapRef && route.params.type === "origen") {
+          if (mapRef && route.params.coords.origen) {
+            mapRef.current.animateToRegion(
+              {
+                latitude: route.params.coords.origen.latitude,
+                longitude: route.params.coords.origen.longitude,
+                latitudeDelta: 0.003,
+                longitudeDelta: 0.003,
+              },
+              1000
+            )
+          } else if (mapRef && route.params.type === "origen") {
             mapRef.current.animateToRegion(
               {
                 latitude: location.coords.latitude,
                 longitude: location.coords.longitude,
+                latitudeDelta: 0.003,
+                longitudeDelta: 0.003,
+              },
+              1000
+            )
+          } else if (mapRef && route.params.coords.destino) {
+            mapRef.current.animateToRegion(
+              {
+                latitude: route.params.coords.destino.latitude,
+                longitude: route.params.coords.destino.longitude,
                 latitudeDelta: 0.003,
                 longitudeDelta: 0.003,
               },
@@ -65,7 +85,7 @@ function InputMarkerMap({ route }) {
 
   return (
     <View style={styles.container}>
-      <StatusBar/>
+      <StatusBar />
       <MapView
         style={styles.mapStyle}
         provider={PROVIDER_GOOGLE}
@@ -144,7 +164,10 @@ function InputMarkerMap({ route }) {
                 }}
                 style={{ padding: 4 }}
               >
-                <Text AddressSearcher style={{ color: "black", paddingVertical: 4 }}>
+                <Text
+                  AddressSearcher
+                  style={{ color: "black", paddingVertical: 4 }}
+                >
                   {item.description}
                 </Text>
               </TouchableOpacity>
@@ -214,7 +237,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   mapStyle: {
-    width: "100%",//Dimensions.get("window").width,
+    width: "100%", //Dimensions.get("window").width,
     height: "100%", //Dimensions.get("window").height,
     position: "absolute",
   },

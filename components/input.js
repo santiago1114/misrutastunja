@@ -4,10 +4,10 @@ import * as rootNavigation from "../navigation/rootNavigation"
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons"
 import { COLORS } from "../utils/constants"
 
-function Input({ placeholder, type, checkFlag }) {
+function Input({ placeholder, type, checkFlag, coords }) {
   return (
     <TouchableOpacity
-      onPress={() => rootNavigation.navigate("MarkerMap", { type })}
+      onPress={() => rootNavigation.navigate("MarkerMap", { type, coords })}
     >
       <View style={styles.mapInput}>
         <View style={styles.group}>

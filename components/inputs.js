@@ -28,12 +28,14 @@ function Inputs({ coords, setData, setFilterRuta }) {
               placeholder={coords.addressOrigen}
               type={"origen"}
               checkFlag={true}
+              coords={coords}
             />
           ) : (
             <Input
               placeholder={"Punto de partida seleccionado"}
               type={"origen"}
               checkFlag={true}
+              coords={coords}
             />
           )}
         </>

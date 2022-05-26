@@ -24,13 +24,13 @@ function StackNav() {
       <Stack.Screen
         name="MarkerMap"
         component={InputMarkerMap}
-        options={{ headerShown: false }}
+        options={{ title: "Selecciona en el mapa", headerShown: true }}
       />
-      <Stack.Screen
+      {/*<Stack.Screen
         name="RutasList"
         component={RutasList}
         options={{ title: "rutas", headerShown: false }}
-      />
+      />*/}
     </Stack.Navigator>
   )
 }
