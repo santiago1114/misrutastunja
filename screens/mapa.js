@@ -76,16 +76,16 @@ function Mapa({ route, navigation }) {
                   setRegion({
                     latitude: location.coords.latitude,
                     longitude: location.coords.longitude,
-                    latitudeDelta: 0.001,
-                    longitudeDelta: 0.001,
+                    latitudeDelta: 0.003,
+                    longitudeDelta: 0.003,
                   })
 
                   mapRef.current.animateToRegion(
                     {
                       latitude: location.coords.latitude,
                       longitude: location.coords.longitude,
-                      latitudeDelta: 0.001,
-                      longitudeDelta: 0.001,
+                      latitudeDelta: 0.003,
+                      longitudeDelta: 0.003,
                     },
                     1000
                   )
