@@ -13,7 +13,7 @@ function StackNav() {
       <Stack.Screen
         name="Inicio"
         component={Inicio}
-        options={{ title: "Inicio", headerShown: false }}
+        options={{ title: "Mis Rutas Tunja", headerShown: false }}
         initialParams={{}}
       />
 
@@ -31,9 +31,9 @@ export default StackNav
 
 const screenOptionStyle = {
   headerStyle: {
-    backgroundColor: COLORS.azul_oscuro,
+    backgroundColor: "white",
   },
-  headerTintColor: "#fff",
+  headerTintColor: COLORS.azul,
   headerTitleStyle: {
     fontWeight: "bold",
   },

@@ -59,14 +59,15 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "white",
     width: "100%",
-    height: 240,
+    //height: "40%",
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
+    padding: 20,
   },
   horario: {
-    width: 164,
-    height: 84,
+    width: "100%",
+    //height: "40%",
     flex: 1,
     paddingTop: 5,
   },

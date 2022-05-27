@@ -46,13 +46,12 @@ const styles = StyleSheet.create({
   },
   txtNombre: {
     fontSize: 15,
-    fontWeight: "normal",
     color: "white",
     width: "100%",
     textAlign: "center",
   },
   txtCodigo: {
-    paddingTop: 8,
+    paddingTop: 10,
     fontSize: 20,
     fontWeight: "bold",
     lineHeight: 18,

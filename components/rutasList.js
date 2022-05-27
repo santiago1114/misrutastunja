@@ -58,7 +58,7 @@ function RutasList({ coords }) {
             return item.id
           }}
           renderItem={({ item }) => <RutaItem item={item} coords={coords} />}
-          ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
+          
         />
       )}
     </>
@@ -66,7 +66,7 @@ function RutasList({ coords }) {
 }
 
 export default RutasList
-
+//ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
 const styles = StyleSheet.create({
   itemSeparator: {
     borderWidth: 1,

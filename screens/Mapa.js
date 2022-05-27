@@ -11,35 +11,36 @@ import {
 import { getRuta } from "../api/rutas"
 import { mapStyle } from "../utils/mapStyle"
 import Cartel from "../components/cartel"
-import { FontAwesome, Entypo, MaterialCommunityIcons } from "@expo/vector-icons"
+import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons"
 import { useFocusEffect } from "@react-navigation/native"
 import { COLORS } from "../utils/constants"
+import { getLocation } from "../utils/functions"
 
 async function getRef(mapRef, route) {
   if (mapRef && route.params.coords.origen && route.params.coords.destino) {
     await setTimeout(() => {
       mapRef.current.fitToSuppliedMarkers(["origen", "destino"], {
-        edgePadding: { top: 25, right: 25, bottom: 25, left: 25 },
+        edgePadding: { top: 150, right: 24, bottom: 0, left: 24 },
         animated: true,
       })
     }, 500)
   }
 }
 
-function Mapa({ route }) {
+function Mapa({ route, navigation }) {
   const { item } = route.params
 
   const mapRef = useRef(null)
   const [pline, setPline] = useState([])
   const [hideFlag, setHideFlag] = useState(true)
   const [markers, setMarkers] = useState({
-    region: {
-      latitude: 5.540147272002443,
-      longitude: -73.35916010380109,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    },
     markers: null,
+  })
+  const [region, setRegion] = useState({
+    latitude: 5.540147272002443,
+    longitude: -73.35916010380109,
+    latitudeDelta: 0.09,
+    longitudeDelta: 0.045,
   })
   //const isFocused = useIsFocused()
   useFocusEffect(
@@ -54,21 +55,66 @@ function Mapa({ route }) {
     }, [])
   )
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity
+            style={{ marginRight: 14 }}
+            onPress={() => setHideFlag(!hideFlag)}
+          >
+            <MaterialCommunityIcons
+              name="information"
+              size={44}
+              color={COLORS.azul}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              getLocation()
+                .then((location) => {
+                  setRegion({
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
+                    latitudeDelta: 0.001,
+                    longitudeDelta: 0.001,
+                  })
+
+                  mapRef.current.animateToRegion(
+                    {
+                      latitude: location.coords.latitude,
+                      longitude: location.coords.longitude,
+                      latitudeDelta: 0.001,
+                      longitudeDelta: 0.001,
+                    },
+                    1000
+                  )
+                })
+                .catch(() => "No se otorgaron permisos de localización")
+            }
+          >
+            <MaterialCommunityIcons
+              name="crosshairs-gps"
+              size={44}
+              color={COLORS.azul}
+            />
+          </TouchableOpacity>
+        </View>
+      ),
+    })
+  }, [navigation, hideFlag])
+
   return (
     <View>
-      <StatusBar animated={true} backgroundColor="#18B8EC" />
+      <StatusBar animated={true} backgroundColor="white" />
       <MapView
         showsUserLocation={true}
-        showsMyLocationButton={true}
+        showsMyLocationButton={false}
         customMapStyle={mapStyle}
         style={styles.mapStyle}
         provider={PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: 5.540147272002443,
-          longitude: -73.35916010380109,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
+        initialRegion={region}
+        onRegionChangeComplete={setRegion}
         ref={mapRef}
       >
         {
@@ -163,18 +209,7 @@ function Mapa({ route }) {
       </MapView>
       <View style={{ position: "absolute", top: 20, left: 20 }}>
         {hideFlag ? (
-          <TouchableOpacity
-            onPress={() => setHideFlag(false)}
-            style={{
-              alignItems: "center",
-              backgroundColor: "white",
-              borderRadius: 20,
-              padding: 10,
-            }}
-          >
-            <FontAwesome name="info-circle" size={30} color="black" />
-            <Text>Mostrar Ruta</Text>
-          </TouchableOpacity>
+          <></>
         ) : (
           <TouchableOpacity onPress={() => setHideFlag(true)}>
             <Cartel item={item} />
@@ -189,7 +224,7 @@ export default Mapa
 
 const styles = StyleSheet.create({
   mapStyle: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height - 50,
+    width: "100%",
+    height: "100%",
   },
 })

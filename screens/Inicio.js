@@ -81,7 +81,7 @@ const Inicio = ({ route, navigation }) => {
                   fontSize: 15,
                   fontWeight: "bold",
                   color: "black",
-                  backgroundColor: COLORS.azul_claro,
+                  backgroundColor: "white",
                   padding: 4,
                   borderRadius: 10,
                   marginVertical: 10,
@@ -105,7 +105,7 @@ const Inicio = ({ route, navigation }) => {
                   fontSize: 15,
                   fontWeight: "bold",
                   color: "white",
-                  backgroundColor: COLORS.morado_oscuro,
+                  backgroundColor: "black",
                   padding: 4,
                   borderRadius: 10,
                 }}

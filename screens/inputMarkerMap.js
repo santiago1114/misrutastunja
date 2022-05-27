@@ -11,7 +11,12 @@ import {
 } from "react-native"
 import { getLocation } from "../utils/functions"
 import { COLORS, TUNJA_LOCATION } from "../utils/constants"
-import { FontAwesome, Ionicons, Entypo } from "@expo/vector-icons"
+import {
+  FontAwesome,
+  Ionicons,
+  Entypo,
+  MaterialCommunityIcons ,
+} from "@expo/vector-icons"
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps"
 import * as rootNavigation from "../navigation/rootNavigation"
 import { useFocusEffect } from "@react-navigation/native"
@@ -24,7 +29,7 @@ const handleEmpty = () => {
 /**
  * Mapa para seleccionar un *marcador*.
  */
-function InputMarkerMap({ route }) {
+function InputMarkerMap({ route, navigation }) {
   const [address, setAddress] = useState("")
   const [autoCompleteList, setAutoCompleteList] = useState([])
   const [region, setRegion] = useState({
@@ -35,6 +40,43 @@ function InputMarkerMap({ route }) {
   })
 
   const mapRef = useRef(null)
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() =>
+            getLocation()
+              .then((location) => {
+                setRegion({
+                  latitude: location.coords.latitude,
+                  longitude: location.coords.longitude,
+                  latitudeDelta: 0.001,
+                  longitudeDelta: 0.001,
+                })
+
+                mapRef.current.animateToRegion(
+                  {
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
+                    latitudeDelta: 0.001,
+                    longitudeDelta: 0.001,
+                  },
+                  1000
+                )
+              })
+              .catch(() => "No se otorgaron permisos de localización")
+          }
+        >
+          <MaterialCommunityIcons
+            name="crosshairs-gps"
+            size={44}
+            color={COLORS.azul}
+          />
+        </TouchableOpacity>
+      ),
+    })
+  }, [navigation])
 
   useFocusEffect(
     useCallback(() => {
@@ -63,7 +105,7 @@ function InputMarkerMap({ route }) {
             )
           }
         })
-        .catch()
+        .catch(() => "No se otorgaron permisos de localización")
       if (route.params.coords) {
         if (route.params.coords.origen && route.params.type === "origen") {
           setRegion({
@@ -97,7 +139,7 @@ function InputMarkerMap({ route }) {
         ref={mapRef}
         onRegionChangeComplete={setRegion}
         showsUserLocation={true}
-        showsMyLocationButton={true}
+        showsMyLocationButton={false}
       />
 
       <View style={{ marginBottom: 50 }}>
@@ -137,7 +179,7 @@ function InputMarkerMap({ route }) {
         <Ionicons name="checkmark" color="#FFF" size={50} />
       </TouchableOpacity>
 
-      <View style={{ flex: 1, position: "absolute", bottom: 50, width: "90%" }}>
+      <View style={{ flex: 1, position: "absolute", bottom: 40, width: "90%" }}>
         {autoCompleteList.length > 0 && (
           <FlatList
             style={styles.autocompleteList}
