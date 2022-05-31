@@ -98,7 +98,7 @@ const Inicio = ({ route, navigation }) => {
               }}
             >
               <Text style={{ color: "white", fontSize: 16, paddingEnd: 20 }}>
-                Nocturno, Domingos y Festivos
+                Nocturno, Dom. y Festivos
               </Text>
               <Text
                 style={{
