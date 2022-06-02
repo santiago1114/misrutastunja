@@ -1,9 +1,9 @@
-import * as rootNavigation from '../navigation/rootNavigation';
+import * as rootNavigation from '../navigation/rootNavigation'
 
 import React from "react"
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import Cartel from "./cartel"
-
+import { RFPercentage } from "react-native-responsive-fontsize"
 
 export default function RutaItem({ item, coords }) {
   return (
@@ -72,13 +72,13 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   txt1: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontWeight: "700",
     lineHeight: 17,
     color: "#191970",
   },
   txt2: {
-    fontSize: 14,
+    fontSize: RFPercentage(2),
     fontWeight: "normal",
     lineHeight: 17,
     color: "black",

@@ -4,7 +4,7 @@ import { getRutas } from "../api/rutas"
 import RutaItem from "./rutaItem"
 import { FontAwesome5 } from "@expo/vector-icons"
 import { FilterContext } from "../utils/constants"
-
+import { RFPercentage } from "react-native-responsive-fontsize"
 
 
 const handleEmpty = () => {
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     borderColor: "#EEEEEE",
   },
   listHeader: {
-    fontSize: 18,
+    fontSize: RFPercentage(3),
     fontWeight: "bold",
     textAlign: "center",
   },

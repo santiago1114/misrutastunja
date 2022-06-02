@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import * as rootNavigation from "../navigation/rootNavigation"
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons"
 import { COLORS } from "../utils/constants"
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 function Input({ placeholder, type, checkFlag, coords }) {
   return (
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   txt: {
-    fontSize: 14,
+    fontSize: RFPercentage(2),
     fontWeight: "bold",
     color: "gray",
   },

@@ -11,7 +11,12 @@ import {
 import { getRuta } from "../api/rutas"
 import { mapStyle } from "../utils/mapStyle"
 import Cartel from "../components/cartel"
-import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons"
+import {
+  Entypo,
+  SimpleLineIcons,
+  MaterialIcons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons"
 import { useFocusEffect } from "@react-navigation/native"
 import { COLORS } from "../utils/constants"
 import { getLocation } from "../utils/functions"
@@ -63,11 +68,7 @@ function Mapa({ route, navigation }) {
             style={{ marginRight: 14 }}
             onPress={() => setHideFlag(!hideFlag)}
           >
-            <MaterialCommunityIcons
-              name="information"
-              size={44}
-              color={COLORS.azul}
-            />
+            <MaterialIcons name="info" size={32} color={COLORS.azul} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() =>
@@ -76,16 +77,16 @@ function Mapa({ route, navigation }) {
                   setRegion({
                     latitude: location.coords.latitude,
                     longitude: location.coords.longitude,
-                    latitudeDelta: 0.003,
-                    longitudeDelta: 0.003,
+                    latitudeDelta: 0.004,
+                    longitudeDelta: 0.004,
                   })
 
                   mapRef.current.animateToRegion(
                     {
                       latitude: location.coords.latitude,
                       longitude: location.coords.longitude,
-                      latitudeDelta: 0.003,
-                      longitudeDelta: 0.003,
+                      latitudeDelta: 0.004,
+                      longitudeDelta: 0.004,
                     },
                     1000
                   )
@@ -93,11 +94,7 @@ function Mapa({ route, navigation }) {
                 .catch(() => "No se otorgaron permisos de localización")
             }
           >
-            <MaterialCommunityIcons
-              name="crosshairs-gps"
-              size={44}
-              color={COLORS.azul}
-            />
+            <MaterialIcons name="my-location" size={32} color={COLORS.azul} />
           </TouchableOpacity>
         </View>
       ),
@@ -126,7 +123,7 @@ function Mapa({ route, navigation }) {
           <Polyline
             lineJoin={"bevel"}
             coordinates={pline}
-            strokeColor="rgba(52, 73, 94 ,0.5)" // fallback for when `strokeColors` is not supported by the map-provider
+            strokeColor="rgba(52, 73, 94 ,0.9)" // fallback for when `strokeColors` is not supported by the map-provider
             strokeWidth={7}
           />
         )}

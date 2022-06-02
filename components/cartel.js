@@ -1,5 +1,6 @@
 import React from "react"
 import { StyleSheet, View, Text } from "react-native"
+import { RFPercentage } from "react-native-responsive-fontsize"
 
 function Cartel({ item }) {
   return (
@@ -45,14 +46,14 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
   },
   txtNombre: {
-    fontSize: 15,
+    fontSize: RFPercentage(2),
     color: "white",
     width: "100%",
     textAlign: "center",
   },
   txtCodigo: {
     paddingTop: 10,
-    fontSize: 20,
+    fontSize: RFPercentage(3),
     fontWeight: "bold",
     lineHeight: 18,
     color: "white",

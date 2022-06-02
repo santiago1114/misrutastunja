@@ -5,6 +5,7 @@ import RutasList from "../components/rutasList"
 import { useFocusEffect } from "@react-navigation/native"
 import { ImageBackground, View, Image, Text } from "react-native"
 import { COLORS, FilterContext } from "../utils/constants"
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 const Inicio = ({ route, navigation }) => {
   const [coords, setCoords] = useState({})
@@ -56,10 +57,10 @@ const Inicio = ({ route, navigation }) => {
               }}
             />
             <View>
-              <Text style={{ fontSize: 20, color: "white" }}>
+              <Text style={{ fontSize: RFPercentage(4), color: "white" }}>
                 Mis Rutas Tunja
               </Text>
-              <Text style={{ fontSize: 12, color: "white" }}>
+              <Text style={{ fontSize: RFPercentage(2), color: "white" }}>
                 por Dirección de TIC's y Gobierno Digital
               </Text>
             </View>
@@ -73,12 +74,12 @@ const Inicio = ({ route, navigation }) => {
                 justifyContent: "flex-end",
               }}
             >
-              <Text style={{ color: "white", fontSize: 16, paddingEnd: 20 }}>
+              <Text style={{ color: "white", fontSize: RFPercentage(2), paddingEnd: 20 }}>
                 Diurno
               </Text>
               <Text
                 style={{
-                  fontSize: 15,
+                  fontSize: RFPercentage(2),
                   fontWeight: "bold",
                   color: "black",
                   backgroundColor: "white",
@@ -97,12 +98,12 @@ const Inicio = ({ route, navigation }) => {
                 justifyContent: "flex-end",
               }}
             >
-              <Text style={{ color: "white", fontSize: 16, paddingEnd: 20 }}>
+              <Text style={{ color: "white", fontSize: RFPercentage(2), paddingEnd: 20 }}>
                 Nocturno, Dom. y Festivos
               </Text>
               <Text
                 style={{
-                  fontSize: 15,
+                  fontSize: RFPercentage(2),
                   fontWeight: "bold",
                   color: "white",
                   backgroundColor: "black",

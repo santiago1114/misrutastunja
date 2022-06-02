@@ -5,6 +5,7 @@ import { navigationRef } from "./navigation/rootNavigation"
 import { View, Text, Image } from "react-native"
 import AppIntroSlider from "react-native-app-intro-slider"
 import { COLORS } from "./utils/constants"
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize"
 
 const slides = [
   {
@@ -43,7 +44,7 @@ export default class App extends React.Component {
       <Text
         style={{
           marginTop: 5,
-          fontSize: 20,
+          fontSize: RFPercentage(3),
           fontWeight: "bold",
           color: "white",
         }}
@@ -57,7 +58,7 @@ export default class App extends React.Component {
       <Text
         style={{
           marginTop: 5,
-          fontSize: 20,
+          fontSize: RFPercentage(3),
           fontWeight: "bold",
           color: "white",
         }}
@@ -73,13 +74,13 @@ export default class App extends React.Component {
         style={{
           flex: 1,
           alignItems: "center",
-          justifyContent: "space-evenly",
+          justifyContent: "center",
           backgroundColor: item.backgroundColor,
         }}
       >
         <Text
           style={{
-            fontSize: 18,
+            fontSize: RFPercentage(3),
             fontWeight: "bold",
             color: "white",
             textAlign: "center",
@@ -90,14 +91,14 @@ export default class App extends React.Component {
         <Image
           source={item.image}
           style={{
-            aspectRatio: 0.7,
+            aspectRatio: 0.5,
             resizeMode: "contain",
             maxHeight: 500,
           }}
         />
         <Text
           style={{
-            fontSize: 14,
+            fontSize: RFPercentage(2),
             color: "white",
             marginHorizontal: 20,
             textAlign: "center",

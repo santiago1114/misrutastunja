@@ -15,7 +15,7 @@ import {
   FontAwesome,
   Ionicons,
   Entypo,
-  MaterialCommunityIcons ,
+  MaterialIcons,
 } from "@expo/vector-icons"
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps"
 import * as rootNavigation from "../navigation/rootNavigation"
@@ -51,16 +51,16 @@ function InputMarkerMap({ route, navigation }) {
                 setRegion({
                   latitude: location.coords.latitude,
                   longitude: location.coords.longitude,
-                  latitudeDelta: 0.001,
-                  longitudeDelta: 0.001,
+                  latitudeDelta: 0.003,
+                  longitudeDelta: 0.003,
                 })
 
                 mapRef.current.animateToRegion(
                   {
                     latitude: location.coords.latitude,
                     longitude: location.coords.longitude,
-                    latitudeDelta: 0.001,
-                    longitudeDelta: 0.001,
+                    latitudeDelta: 0.003,
+                    longitudeDelta: 0.003,
                   },
                   1000
                 )
@@ -68,11 +68,7 @@ function InputMarkerMap({ route, navigation }) {
               .catch(() => "No se otorgaron permisos de localización")
           }
         >
-          <MaterialCommunityIcons
-            name="crosshairs-gps"
-            size={44}
-            color={COLORS.azul}
-          />
+          <MaterialIcons name="my-location" size={32} color={COLORS.azul} />
         </TouchableOpacity>
       ),
     })
@@ -155,11 +151,12 @@ function InputMarkerMap({ route, navigation }) {
           styles.button,
           {
             position: "absolute",
-            top: 20,
+            bottom: 20,
+            right: 20,
             height: 80,
             width: 80,
             borderRadius: 40,
-            flexDirection: "row",
+           
           },
         ]}
         onPress={() => {
@@ -179,7 +176,41 @@ function InputMarkerMap({ route, navigation }) {
         <Ionicons name="checkmark" color="#FFF" size={50} />
       </TouchableOpacity>
 
-      <View style={{ flex: 1, position: "absolute", bottom: 40, width: "90%" }}>
+      <View style={{ flex: 1, position: "absolute", top: 10, width: "95%" }}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <TextInput
+            style={styles.textInput}
+            value={address}
+            onChangeText={setAddress}
+            onSubmitEditing={() => {
+              autocomplete(address)
+                .then((res) => {
+                  setAutoCompleteList(res)
+                })
+                .catch(console.error)
+            }}
+            placeholder="Digita una ubicación"
+          />
+          <TouchableOpacity
+            style={styles.textInputBtn}
+            onPress={() => {
+              autocomplete(address)
+                .then((res) => {
+                  setAutoCompleteList(res)
+                })
+                .catch(console.error)
+            }}
+          >
+            <FontAwesome name="search" color="white" size={24} />
+          </TouchableOpacity>
+        </View>
+
         {autoCompleteList.length > 0 && (
           <FlatList
             style={styles.autocompleteList}
@@ -225,40 +256,6 @@ function InputMarkerMap({ route, navigation }) {
             )}
           />
         )}
-
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <TextInput
-            style={styles.textInput}
-            value={address}
-            onChangeText={setAddress}
-            onSubmitEditing={() => {
-              autocomplete(address)
-                .then((res) => {
-                  setAutoCompleteList(res)
-                })
-                .catch(console.error)
-            }}
-            placeholder="Digita una ubicación"
-          />
-          <TouchableOpacity
-            style={styles.textInputBtn}
-            onPress={() => {
-              autocomplete(address)
-                .then((res) => {
-                  setAutoCompleteList(res)
-                })
-                .catch(console.error)
-            }}
-          >
-            <FontAwesome name="search" color="white" size={24} />
-          </TouchableOpacity>
-        </View>
       </View>
     </View>
   )
@@ -281,7 +278,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#50C878",
   },
   autocompleteList: {
-    marginHorizontal: 20,
+    marginHorizontal: 5,
     borderColor: "#EEEEEE",
     shadowColor: "#000",
     shadowOffset: {
@@ -292,10 +289,10 @@ const styles = StyleSheet.create({
     shadowRadius: 7.49,
 
     elevation: 12,
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
     backgroundColor: "white",
     borderRadius: 15,
-    marginBottom: 10,
+    marginTop: 5,
   },
   textInput: {
     height: 50,
@@ -304,15 +301,34 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     padding: 10,
     backgroundColor: "white",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+
+    elevation: 12,
+    paddingHorizontal: 5,
   },
   textInputBtn: {
     flexDirection: "column",
-    backgroundColor: COLORS.azul,
+    backgroundColor: COLORS.morado_oscuro,
     padding: 8,
     borderBottomRightRadius: 20,
     borderTopRightRadius: 20,
     height: 50,
     justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+
+    elevation: 12,
   },
 })
 
