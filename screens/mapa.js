@@ -66,8 +66,7 @@ function Mapa({ route, navigation }) {
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity
             style={{ marginRight: 14 }}
-            onPress={() => setHideFlag(!hideFlag)}
-          >
+            onPress={() => setHideFlag(!hideFlag)}>
             <MaterialIcons name="info" size={32} color={COLORS.azul} />
           </TouchableOpacity>
           <TouchableOpacity
@@ -92,8 +91,7 @@ function Mapa({ route, navigation }) {
                   )
                 })
                 .catch(() => "No se otorgaron permisos de localización")
-            }
-          >
+            }>
             <MaterialIcons name="my-location" size={32} color={COLORS.azul} />
           </TouchableOpacity>
         </View>
@@ -105,6 +103,7 @@ function Mapa({ route, navigation }) {
     <View>
       <StatusBar animated={true} backgroundColor="white" />
       <MapView
+        showsCompass={false}
         showsUserLocation={true}
         showsMyLocationButton={false}
         customMapStyle={mapStyle}
@@ -112,8 +111,7 @@ function Mapa({ route, navigation }) {
         provider={PROVIDER_GOOGLE}
         initialRegion={region}
         onRegionChangeComplete={setRegion}
-        ref={mapRef}
-      >
+        ref={mapRef}>
         {
           // if state contains marker variable with a valid value, render the marker
           markers.marker && <MapView.Marker coordinate={markers.marker} />
@@ -136,8 +134,7 @@ function Mapa({ route, navigation }) {
                   style={{
                     fontWeight: "bold",
                     color: "black",
-                  }}
-                >
+                  }}>
                   Inicio Ruta
                 </Text>
                 <MaterialCommunityIcons name="bus-alert" size={24} />
@@ -149,8 +146,7 @@ function Mapa({ route, navigation }) {
                   style={{
                     fontWeight: "bold",
                     color: "black",
-                  }}
-                >
+                  }}>
                   Fin Ruta
                 </Text>
                 <MaterialCommunityIcons name="bus-alert" size={24} />
@@ -163,16 +159,14 @@ function Mapa({ route, navigation }) {
                 title="Punto de partida"
                 animation={1}
                 key={3}
-                identifier="origen"
-              >
+                identifier="origen">
                 <View style={{ alignItems: "center" }}>
                   <Text
                     style={{
                       fontWeight: "bold",
                       textShadowRadius: 10,
                       textShadowColor: "white",
-                    }}
-                  >
+                    }}>
                     Origen
                   </Text>
                   <Entypo name="location-pin" size={50} color={COLORS.rojo} />
@@ -185,16 +179,14 @@ function Mapa({ route, navigation }) {
                 title="Punto destino"
                 animation={1}
                 key={4}
-                identifier="destino"
-              >
+                identifier="destino">
                 <View style={{ alignItems: "center" }}>
                   <Text
                     style={{
                       fontWeight: "bold",
                       textShadowRadius: 10,
                       textShadowColor: "white",
-                    }}
-                  >
+                    }}>
                     Destino
                   </Text>
                   <Entypo name="location-pin" size={50} color={COLORS.verde} />

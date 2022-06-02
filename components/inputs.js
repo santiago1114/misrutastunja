@@ -12,8 +12,7 @@ function Inputs({ coords, setData, setFilterRuta }) {
     <View
       style={{
         padding: 20,
-      }}
-    >
+      }}>
       {coords.origen ? (
         <>
           {coords.addressOrigen ? (
@@ -71,8 +70,7 @@ function Inputs({ coords, setData, setFilterRuta }) {
           alignItems: "stretch",
           justifyContent: "flex-end",
           marginTop: 10,
-        }}
-      >
+        }}>
         <TextInput
           style={styles.textInput}
           value={filterText}
@@ -89,8 +87,7 @@ function Inputs({ coords, setData, setFilterRuta }) {
             setData({})
             setFilterText("")
             setFilter("")
-          }}
-        >
+          }}>
           <EvilIcons size={32} color="#126DB4" name="trash" />
         </TouchableOpacity>
       </View>

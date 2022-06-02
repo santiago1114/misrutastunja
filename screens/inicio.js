@@ -5,7 +5,7 @@ import RutasList from "../components/rutasList"
 import { useFocusEffect } from "@react-navigation/native"
 import { ImageBackground, View, Image, Text } from "react-native"
 import { COLORS, FilterContext } from "../utils/constants"
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import { RFPercentage } from "react-native-responsive-fontsize"
 
 const Inicio = ({ route, navigation }) => {
   const [coords, setCoords] = useState({})

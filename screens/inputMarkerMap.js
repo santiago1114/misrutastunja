@@ -1,30 +1,12 @@
 import React, { useRef, useState, useCallback } from "react"
-import {
-  StatusBar,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Text,
-  TextInput,
-  Dimensions,
-  FlatList,
-} from "react-native"
+import { StatusBar, StyleSheet, View, TouchableOpacity } from "react-native"
 import { getLocation } from "../utils/functions"
 import { COLORS, TUNJA_LOCATION } from "../utils/constants"
-import {
-  FontAwesome,
-  Ionicons,
-  Entypo,
-  MaterialIcons,
-} from "@expo/vector-icons"
+import { Ionicons, Entypo, MaterialIcons } from "@expo/vector-icons"
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps"
 import * as rootNavigation from "../navigation/rootNavigation"
 import { useFocusEffect } from "@react-navigation/native"
-import { autocomplete, detail } from "../api/geocoder"
-
-const handleEmpty = () => {
-  return <></>
-}
+import AddressSearcher from "../components/adddressSearcher"
 
 /**
  * Mapa para seleccionar un *marcador*.
@@ -41,6 +23,7 @@ function InputMarkerMap({ route, navigation }) {
 
   const mapRef = useRef(null)
 
+  // Evento control en header
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -66,8 +49,7 @@ function InputMarkerMap({ route, navigation }) {
                 )
               })
               .catch(() => "No se otorgaron permisos de localización")
-          }
-        >
+          }>
           <MaterialIcons name="my-location" size={32} color={COLORS.azul} />
         </TouchableOpacity>
       ),
@@ -156,7 +138,6 @@ function InputMarkerMap({ route, navigation }) {
             height: 80,
             width: 80,
             borderRadius: 40,
-           
           },
         ]}
         onPress={() => {
@@ -171,92 +152,17 @@ function InputMarkerMap({ route, navigation }) {
               address,
             },
           })
-        }}
-      >
+        }}>
         <Ionicons name="checkmark" color="#FFF" size={50} />
       </TouchableOpacity>
 
-      <View style={{ flex: 1, position: "absolute", top: 10, width: "95%" }}>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <TextInput
-            style={styles.textInput}
-            value={address}
-            onChangeText={setAddress}
-            onSubmitEditing={() => {
-              autocomplete(address)
-                .then((res) => {
-                  setAutoCompleteList(res)
-                })
-                .catch(console.error)
-            }}
-            placeholder="Digita una ubicación"
-          />
-          <TouchableOpacity
-            style={styles.textInputBtn}
-            onPress={() => {
-              autocomplete(address)
-                .then((res) => {
-                  setAutoCompleteList(res)
-                })
-                .catch(console.error)
-            }}
-          >
-            <FontAwesome name="search" color="white" size={24} />
-          </TouchableOpacity>
-        </View>
-
-        {autoCompleteList.length > 0 && (
-          <FlatList
-            style={styles.autocompleteList}
-            data={autoCompleteList}
-            extraData={autoCompleteList}
-            ListEmptyComponent={handleEmpty}
-            keyExtractor={(item) => {
-              return item.place_id
-            }}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() => {
-                  detail(item.place_id)
-                    .then((res) => {
-                      mapRef.current.animateToRegion(
-                        {
-                          latitude: res.geometry.location.lat,
-                          longitude: res.geometry.location.lng,
-                          latitudeDelta: 0.003,
-                          longitudeDelta: 0.003,
-                        },
-                        1000
-                      )
-                      setAddress(res.formatted_address)
-                      setAutoCompleteList([])
-                    })
-                    .catch(console.error)
-                }}
-                style={{ padding: 4 }}
-              >
-                <Text
-                  AddressSearcher
-                  style={{ color: "black", paddingVertical: 4 }}
-                >
-                  {item.description}
-                </Text>
-              </TouchableOpacity>
-            )}
-            ItemSeparatorComponent={() => (
-              <View
-                style={{ width: "100%", height: 2, backgroundColor: "#EEEEEE" }}
-              ></View>
-            )}
-          />
-        )}
-      </View>
+      <AddressSearcher
+        address={address}
+        setAddress={setAddress}
+        autoCompleteList={autoCompleteList}
+        setAutoCompleteList={setAutoCompleteList}
+        mapRef={mapRef}
+      />
     </View>
   )
 }
@@ -287,7 +193,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.37,
     shadowRadius: 7.49,
-
     elevation: 12,
     paddingHorizontal: 5,
     backgroundColor: "white",
@@ -327,7 +232,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.37,
     shadowRadius: 7.49,
-
     elevation: 12,
   },
 })
