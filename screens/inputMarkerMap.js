@@ -3,11 +3,11 @@ import { StatusBar, StyleSheet, View, TouchableOpacity } from "react-native"
 import { getLocation } from "../utils/functions"
 import { COLORS, TUNJA_LOCATION } from "../utils/constants"
 import { Ionicons, Entypo, MaterialIcons } from "@expo/vector-icons"
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps"
+//import MapView, { PROVIDER_GOOGLE } from "react-native-maps"
 import * as rootNavigation from "../navigation/rootNavigation"
 import { useFocusEffect } from "@react-navigation/native"
 import AddressSearcher from "../components/adddressSearcher"
-
+import HMSMap, { MapTypes } from "@hmscore/react-native-hms-map"
 /**
  * Mapa para seleccionar un *marcador*.
  */
@@ -38,18 +38,15 @@ function InputMarkerMap({ route, navigation }) {
                   longitudeDelta: 0.003,
                 })
 
-                mapRef.current.animateToRegion(
-                  {
-                    latitude: location.coords.latitude,
-                    longitude: location.coords.longitude,
-                    latitudeDelta: 0.003,
-                    longitudeDelta: 0.003,
-                  },
-                  1000
-                )
+                mapView.setCoordinates({
+                  latitude: location.coords.latitude,
+                  longitude: location.coords.longitude,
+                })
+
               })
               .catch(() => "No se otorgaron permisos de localización")
-          }>
+          }
+        >
           <MaterialIcons name="my-location" size={32} color={COLORS.azul} />
         </TouchableOpacity>
       ),
@@ -72,15 +69,10 @@ function InputMarkerMap({ route, navigation }) {
             route.params.type === "origen" &&
             !route.params.coords.origen
           ) {
-            mapRef.current.animateToRegion(
-              {
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-                latitudeDelta: 0.003,
-                longitudeDelta: 0.003,
-              },
-              1000
-            )
+            mapView.setCoordinates({
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+            })
           }
         })
         .catch(() => "No se otorgaron permisos de localización")
@@ -110,14 +102,22 @@ function InputMarkerMap({ route, navigation }) {
   return (
     <View style={styles.container}>
       <StatusBar />
-      <MapView
+      <HMSMap
+        mapType={MapTypes.NORMAL}
         style={styles.mapStyle}
-        provider={PROVIDER_GOOGLE}
-        initialRegion={region}
         ref={mapRef}
-        onRegionChangeComplete={setRegion}
-        showsUserLocation={true}
-        showsMyLocationButton={false}
+        camera={{
+          target: { latitude: region.latitude, longitude: region.latitude },
+          zoom: 11,
+        }}
+        onCameraIdle={(e) =>
+          setRegion({
+            latitude: e.nativeEvent.target.latitude,
+            longitude: e.nativeEvent.target.longitude,
+            latitudeDelta: 0.003,
+            longitudeDelta: 0.003,
+          })
+        }
       />
 
       <View style={{ marginBottom: 50 }}>
@@ -152,7 +152,8 @@ function InputMarkerMap({ route, navigation }) {
               address,
             },
           })
-        }}>
+        }}
+      >
         <Ionicons name="checkmark" color="#FFF" size={50} />
       </TouchableOpacity>
 

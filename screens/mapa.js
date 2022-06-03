@@ -20,6 +20,7 @@ import {
 import { useFocusEffect } from "@react-navigation/native"
 import { COLORS } from "../utils/constants"
 import { getLocation } from "../utils/functions"
+import HMSMap, { MapTypes, HMSPolyline, HMSMarker } from "@hmscore/react-native-hms-map";
 
 async function getRef(mapRef, route) {
   if (mapRef && route.params.coords.origen && route.params.coords.destino) {
@@ -56,7 +57,7 @@ function Mapa({ route, navigation }) {
         })
         .catch(console.error)
 
-      getRef(mapRef, route)
+      //getRef(mapRef, route)
     }, [])
   )
 
@@ -80,15 +81,10 @@ function Mapa({ route, navigation }) {
                     longitudeDelta: 0.004,
                   })
 
-                  mapRef.current.animateToRegion(
-                    {
-                      latitude: location.coords.latitude,
-                      longitude: location.coords.longitude,
-                      latitudeDelta: 0.004,
-                      longitudeDelta: 0.004,
-                    },
-                    1000
-                  )
+                  mapView.setCoordinates({
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
+                  })
                 })
                 .catch(() => "No se otorgaron permisos de localización")
             }>
@@ -102,33 +98,25 @@ function Mapa({ route, navigation }) {
   return (
     <View>
       <StatusBar animated={true} backgroundColor="white" />
-      <MapView
-        showsCompass={false}
-        showsUserLocation={true}
-        showsMyLocationButton={false}
-        customMapStyle={mapStyle}
+      <HMSMap
         style={styles.mapStyle}
-        provider={PROVIDER_GOOGLE}
-        initialRegion={region}
-        onRegionChangeComplete={setRegion}
         ref={mapRef}>
         {
           // if state contains marker variable with a valid value, render the marker
-          markers.marker && <MapView.Marker coordinate={markers.marker} />
+          markers.marker && <HMSMarker coordinate={markers.marker} />
         }
 
         {pline.length > 0 && (
-          <Polyline
-            lineJoin={"bevel"}
-            coordinates={pline}
-            strokeColor="rgba(52, 73, 94 ,0.9)" // fallback for when `strokeColors` is not supported by the map-provider
-            strokeWidth={7}
+          <HMSPolyline
+            points={pline}
+            color="rgba(52, 73, 94 ,0.9)" // fallback for when `strokeColors` is not supported by the map-provider
+            width={7}
           />
         )}
 
         {pline[0] && (
           <>
-            <MapView.Marker key={1} coordinate={pline[0]}>
+            <HMSMarker key={1} coordinate={pline[0]}>
               <View style={{ alignItems: "center" }}>
                 <Text
                   style={{
@@ -139,8 +127,8 @@ function Mapa({ route, navigation }) {
                 </Text>
                 <MaterialCommunityIcons name="bus-alert" size={24} />
               </View>
-            </MapView.Marker>
-            <MapView.Marker key={2} coordinate={pline[pline.length - 1]}>
+            </HMSMarker>
+            <HMSMarker key={2} coordinate={pline[pline.length - 1]}>
               <View style={{ alignItems: "center" }}>
                 <Text
                   style={{
@@ -151,10 +139,10 @@ function Mapa({ route, navigation }) {
                 </Text>
                 <MaterialCommunityIcons name="bus-alert" size={24} />
               </View>
-            </MapView.Marker>
+            </HMSMarker>
 
             {route.params.coords.origen && (
-              <MapView.Marker
+              <HMSMarker
                 coordinate={route.params.coords.origen}
                 title="Punto de partida"
                 animation={1}
@@ -171,10 +159,10 @@ function Mapa({ route, navigation }) {
                   </Text>
                   <Entypo name="location-pin" size={50} color={COLORS.rojo} />
                 </View>
-              </MapView.Marker>
+              </HMSMarker>
             )}
             {route.params.coords.destino && (
-              <MapView.Marker
+              <HMSMarker
                 coordinate={route.params.coords.destino}
                 title="Punto destino"
                 animation={1}
@@ -191,11 +179,11 @@ function Mapa({ route, navigation }) {
                   </Text>
                   <Entypo name="location-pin" size={50} color={COLORS.verde} />
                 </View>
-              </MapView.Marker>
+              </HMSMarker>
             )}
           </>
         )}
-      </MapView>
+      </HMSMap>
       <View style={{ position: "absolute", top: 20, left: 20 }}>
         {hideFlag ? (
           <></>

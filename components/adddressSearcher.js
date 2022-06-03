@@ -87,15 +87,10 @@ function AddressSearcher({
               onPress={() => {
                 detail(item.place_id)
                   .then((res) => {
-                    mapRef.current.animateToRegion(
-                      {
-                        latitude: res.geometry.location.lat,
-                        longitude: res.geometry.location.lng,
-                        latitudeDelta: 0.003,
-                        longitudeDelta: 0.003,
-                      },
-                      1000
-                    )
+                    mapView.setCoordinates({
+                      latitude: res.geometry.location.lat,
+                      longitude: res.geometry.location.lng,
+                    })
                     setAddress(res.formatted_address)
                     setAutoCompleteList([])
                   })

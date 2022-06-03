@@ -3,7 +3,7 @@
     "userInterfaceStyle": "light",
     "name": "Mis Rutas Tunja",
     "slug": "misrutastunja",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -33,9 +33,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyAc1qeRBImXZcLdNsdMYKOhw8MFd2OGdQs"
-        }
+    
       },
       "package": "com.ingcarlossantiago.misrutastunja",
       "permissions": [ "LOCATION", "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION" ]
