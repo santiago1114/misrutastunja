@@ -17,3 +17,8 @@
 -keep class com.huawei.updatesdk.**{*;}
 -keep class com.huawei.hms.**{*;}
 -repackageclasses
+-ignorewarnings
+-keepattributes Exceptions
+-keepattributes Signature
+-keepattributes SourceFile,LineNumberTable
+

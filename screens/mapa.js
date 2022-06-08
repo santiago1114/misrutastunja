@@ -109,7 +109,7 @@ function Mapa({ route, navigation }) {
         {pline.length > 0 && (
           <HMSPolyline
             points={pline}
-            color="rgba(52, 73, 94 ,0.9)" // fallback for when `strokeColors` is not supported by the map-provider
+            //color="rgba(52, 73, 94 ,0.9)" // fallback for when `strokeColors` is not supported by the map-provider
             width={7}
           />
         )}
